@@ -1,0 +1,23 @@
+// https://dbdiagram.io/
+Table manga as M {
+  id int [pk, increment] // auto-increment
+  name varchar
+  description varchar
+  content_page_url varchar [unique]
+  last_update timestamptz
+}
+
+Table chapter as C {
+  id int [pk, increment] 
+  manga_id int
+  num NUMERIC
+  url varchar [unique]
+  release_date timestamptz
+}
+
+Table notification as N {
+    chapter_id int [pk]
+}
+
+Ref: M.id < C.manga_id
+Ref: C.id - N.chapter_id
