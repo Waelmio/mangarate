@@ -1,0 +1,19 @@
+{
+    "server": {
+        "port": 7000
+    },
+    "database": {
+        "credentials": {
+            "database": "db_mangarate_dev",
+            "host": "localhost",
+            "port": 5433,
+            "user": "mangarate",
+            "password": "password"
+        },
+        "migrate": "max"        
+    },
+    "watcher": {
+        "enabled": true,
+        "interval": 0.5
+    }
+}
