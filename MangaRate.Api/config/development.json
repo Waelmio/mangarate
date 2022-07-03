@@ -1,0 +1,22 @@
+{
+    "server": {
+        "port": 7000
+    },
+    "database": {
+        "credentials": {
+            "database": "db_mangarate_dev",
+            "host": "localhost",
+            "port": 5432,
+            "user": "mangaratedev",
+            "password": "password"
+        },
+        // In dev we can go to the latest migration
+        // The number of the migration we choose to go to, as string. Or "max".
+        "migrate": "max"        
+    },
+    "watcher": {
+        "enabled": false,
+        // Interval of the watcher checking for new chapters, in minutes
+        "interval": 10
+    }
+}
