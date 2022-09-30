@@ -1,38 +1,29 @@
 # PostgreSQL -- DEV
-First thing first, install postgresql and change your admin password:
+You can use docker to run Postgres
 ```
-sudo apt install postgresql
-sudo -u postgres psql
-\password
-\q
-```
-
-Create a user `mangaratedev`, and two databases, `db_mangarate_test`, `db_mangarate_dev`:
-```
-sudo -u postgres createuser mangaratedev;
-sudo -u postgres psql
+sudo docker run -d \
+	--name mangarate_dev_db \
+	-e POSTGRES_DB=db_mangarate_dev \
+    -e POSTGRES_USER=mangarate \
+    -e POSTGRES_PASSWORD=password \
+    -p 5433:5432 \
+	postgres
 ```
 And then
 ```
-ALTER USER mangaratedev WITH PASSWORD 'password';
-CREATE DATABASE db_mangarate_test;
-\connect db_mangarate_test
-DROP SCHEMA PUBLIC CASCADE;
-CREATE SCHEMA IF NOT EXISTS my_scheme AUTHORIZATION mangaratedev;
-ALTER DATABASE db_mangarate_test SET search_path TO my_scheme;
-CREATE DATABASE db_mangarate_dev;
-\connect db_mangarate_dev
-DROP SCHEMA PUBLIC CASCADE;
-CREATE SCHEMA IF NOT EXISTS my_scheme AUTHORIZATION mangaratedev;
-ALTER DATABASE db_mangarate_dev SET search_path TO my_scheme;
-\q
+sudo docker run -d \
+	--name mangarate_test_db \
+	-e POSTGRES_DB=db_mangarate_test \
+    -e POSTGRES_USER=mangarate \
+    -e POSTGRES_PASSWORD=password \
+    -p 5434:5432 \
+	postgres
 ```
 
-Now, change your postgresql config so that login will work correctly:
-If you have postgres v12:
+If they are stopped, you can run
 ```
-sudo sed -i -e "s/local.*all.*\(postgres\|all\).*peer/local   all             \1                                md5/g" /etc/postgresql/12/main/pg_hba.conf
-sudo service postgresql restart
+sudo docker start mangarate_test_db
+sudo docker start mangarate_dev_db
 ```
 
 Voilà !
