@@ -1,6 +1,7 @@
 import { parse } from 'tldjs';
 import { BadUrlException, ProviderNotImplemented } from '../common/Error';
 import { MangaInfoProvider } from './MangaInfoProvider';
+import { ReadmanganatoProviderInfo } from './Sites/readmanganato.com';
 import { ReadmngcomProviderInfo } from './Sites/readmng.com';
 
 /**
@@ -19,6 +20,9 @@ export async function getMangaInfoProvider(pageUrl: string): Promise<MangaInfoPr
     switch (urlHost) {
         case "readmng.com":
             providerInfo = new ReadmngcomProviderInfo();
+            break;
+        case "readmanganato.com":
+            providerInfo = new ReadmanganatoProviderInfo();
             break;
         default:
             throw new ProviderNotImplemented(urlHost);
