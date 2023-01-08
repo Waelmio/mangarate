@@ -3,9 +3,13 @@ import { ContentPageNotFoundError } from "../common/Error";
 import { BaseChapter } from "../Models/Chapter";
 
 export abstract class MangaInfoProvider {
-    contentPageUrl = "";
-    contentPageHtml = "";
     /**
+     * Name of the provider.
+     */
+    abstract name: string;
+    /**
+     * Array of hostnames
+     * 
      * The hostname need to be the hostname of the provider.
      * 
      * It needs to be without 'http://', 'https://', 'wwww.'
@@ -13,8 +17,11 @@ export abstract class MangaInfoProvider {
      * e.g. 'readmng.com'
      * 
      * It needs to be added to the switch case in MangaInfoProvider.factory as well.
-     */
-    abstract hostname: string;
+    */
+    static hostnames: string[] = [];
+
+   contentPageUrl = "";
+   contentPageHtml = "";
 
     async setup(givenPageUrl: string): Promise<void> {
         this.contentPageUrl = await this.findContentPageUrl(givenPageUrl);
@@ -23,7 +30,7 @@ export abstract class MangaInfoProvider {
             await this.updateContentPageHtml();
         }
         catch (ex) {
-            throw new ContentPageNotFoundError(this.hostname, givenPageUrl);
+            throw new ContentPageNotFoundError(this.name, givenPageUrl);
         }
     }
 

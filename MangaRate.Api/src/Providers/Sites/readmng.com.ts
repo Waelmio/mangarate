@@ -7,7 +7,9 @@ import cheerio from 'cheerio';
 const log = new Logger();
 
 export class ReadmngcomProviderInfo extends MangaInfoProvider {
-    hostname = "readmng.com";
+    static hostnames = ["readmng.com"];
+
+    name = "ReadMangaToday";
 
     async findContentPageUrl(url: string): Promise<string> {
         let contentUrlTry = url;
@@ -17,7 +19,7 @@ export class ReadmngcomProviderInfo extends MangaInfoProvider {
 
         const patternArray = contentUrlTry.match(rePattern);
         if (!patternArray) {
-            throw new ContentPageNotFoundError(this.hostname, url);
+            throw new ContentPageNotFoundError(this.name, url);
         }
         contentUrlTry = patternArray[0];
 

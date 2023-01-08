@@ -1,6 +1,6 @@
 import { BaseManga } from "../Models/Manga";
 import { MangaInfoProvider } from "../Providers/MangaInfoProvider";
-import { getMangaInfoProvider } from "../Providers/MangaInfoProvider.factory";
+import { MangaInfoProviderFactory } from "../Providers/MangaInfoProvider.factory";
 import { addMangaToDB, mangaExistByContentUrl } from "./database/Manga.db.service";
 import { Logger } from 'tslog';
 import { MangaContentPageExistError } from "../common/Error";
@@ -16,7 +16,7 @@ export async function registerManga(url: string): Promise<void> {
     log.info(`Adding manga at ${url} to the database.`);
 
     try {
-        const mangaInfoProvider: MangaInfoProvider = await getMangaInfoProvider(url);
+        const mangaInfoProvider: MangaInfoProvider = await MangaInfoProviderFactory.getMangaInfoProvider(url);
 
         if (await mangaExistByContentUrl(mangaInfoProvider.contentPageUrl)) {
             log.warn(`Manga at ${url} already exists.`);
@@ -49,7 +49,7 @@ export async function registerManga(url: string): Promise<void> {
  */
  export async function extractManga(url: string, mangaInfoProvider?: MangaInfoProvider): Promise<BaseManga> {
     if (typeof mangaInfoProvider === 'undefined') {
-        mangaInfoProvider = await getMangaInfoProvider(url);
+        mangaInfoProvider = await MangaInfoProviderFactory.getMangaInfoProvider(url);
     }
 
     const name = mangaInfoProvider.getName();

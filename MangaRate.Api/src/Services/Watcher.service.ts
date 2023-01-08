@@ -99,7 +99,7 @@ export class Watcher {
             });
         }
         catch (ex) {
-            log.error("Error when trying to get new chapters for manga: ", manga, ex);
+            log.error("Error when trying to get new chapters for manga: ", manga.name, ex);
         }
         return ret;
     }
