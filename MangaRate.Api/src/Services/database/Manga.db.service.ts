@@ -1,5 +1,5 @@
 import { Logger } from "tslog";
-import { Mangas } from '../../Models/Mangas';
+import { MangaMap } from '../../Models/MangaMap';
 import { BaseManga, Manga } from '../../Models/Manga';
 import { getPool } from './Database';
 import { PoolClient, QueryResult } from 'pg';
@@ -11,7 +11,7 @@ const log = new Logger();
 /**
  * Get all mangas in database with chapters ordered by their number, in descending order.
  */
-export async function getMangas(): Promise<Mangas> {
+export async function getMangas(): Promise<MangaMap> {
     const queryText = `
     SELECT M.id m_id, *, C.id chapter_id FROM manga as M
     LEFT JOIN chapter as C
@@ -23,7 +23,7 @@ export async function getMangas(): Promise<Mangas> {
 
     try {
         const rows = (await pool.query(queryText)).rows;
-        const ret: Mangas = {};
+        const ret: MangaMap = {};
 
         rows.forEach((row) => {
             if (!ret[row.m_id]) {

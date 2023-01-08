@@ -1,5 +1,5 @@
 import { Chapter } from "./Chapter";
 
-export interface Chapters {
+export interface ChapterMap {
     [id: string]: Chapter;
 }

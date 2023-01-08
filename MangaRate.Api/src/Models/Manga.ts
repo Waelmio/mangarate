@@ -1,5 +1,5 @@
 import { BaseChapter } from "./Chapter";
-import { Chapters } from "./Chapters";
+import { ChapterMap } from "./ChapterMap";
 import { BaseMangaWithNoChaps } from "./MangaWithNoChaps";
 
 export interface BaseManga extends BaseMangaWithNoChaps {
@@ -8,5 +8,5 @@ export interface BaseManga extends BaseMangaWithNoChaps {
 
 export interface Manga extends BaseMangaWithNoChaps {
     id: number;
-    chapters: Chapters;
+    chapters: ChapterMap;
 }

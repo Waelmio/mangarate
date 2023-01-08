@@ -2,16 +2,16 @@ import { PoolClient, QueryResult } from 'pg';
 import { Logger } from 'tslog';
 import { ChapterIdNotFoundError, MangaIdNotFoundError } from '../../common/Error';
 import { BaseChapter, Chapter } from '../../Models/Chapter';
-import { Mangas } from '../../Models/Mangas';
+import { MangaMap } from '../../Models/MangaMap';
 import { addChaptersToDB_ } from './Chapter.db.service';
 import { getPool } from './Database';
 import { mangaExistById_, refreshMangaLastUpdate_ } from './Manga.db.service';
 
 const log = new Logger();
 
-export async function getNotifications(): Promise<Mangas> {
+export async function getNotifications(): Promise<MangaMap> {
     const client = await getPool().connect();
-    const ret: Mangas = {};
+    const ret: MangaMap = {};
 
     try {
         await client.query('BEGIN');

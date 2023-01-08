@@ -1,5 +1,5 @@
 import { Manga } from "./Manga";
 
-export interface Mangas {
+export interface MangaMap {
     [id: string]: Manga;
 }

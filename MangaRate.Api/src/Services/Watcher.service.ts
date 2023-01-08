@@ -51,7 +51,8 @@ export class Watcher {
             }
         }
         catch (ex) {
-            log.error("The Watcher Randomizer encoutered an error !", ex);
+            log.error("The Watcher Randomizer encoutered an error !");
+            throw ex;
         }
     }
 
