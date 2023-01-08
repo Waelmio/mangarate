@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ContentPageNotFoundError } from "../common/Error";
-import { BaseChapter } from "../Models/Chapter";
+import { BaseChapter } from "../Models/API/Chapter";
 
 export abstract class MangaInfoProvider {
     /**

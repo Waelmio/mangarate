@@ -1,7 +1,7 @@
 import config from 'config';
 import { Logger } from 'tslog';
-import { BaseChapter, Chapter } from '../Models/Chapter';
-import { BaseManga, Manga } from '../Models/Manga';
+import { BaseChapter } from '../Models/API/Chapter';
+import { BaseManga, Manga } from '../Models/API/Manga';
 import { getMangas } from './database/Manga.db.service';
 import { addChapsAndNotificationsToDB } from './database/Notification.db.service';
 import { TimedCall } from './log/TimedCall';

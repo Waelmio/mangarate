@@ -1,6 +1,6 @@
 import { Logger } from "tslog";
-import { MangaMap } from '../../Models/MangaMap';
-import { BaseManga, Manga } from '../../Models/Manga';
+import { MangaMap } from '../../Models/API/MangaMap';
+import { BaseManga, Manga } from '../../Models/API/Manga';
 import { getPool } from './Database';
 import { PoolClient, QueryResult } from 'pg';
 import { MangaIdNotFoundError } from "../../common/Error";

@@ -1,8 +1,8 @@
 import { PoolClient, QueryResult } from 'pg';
 import { Logger } from 'tslog';
 import { ChapterIdNotFoundError, MangaIdNotFoundError } from '../../common/Error';
-import { BaseChapter, Chapter } from '../../Models/Chapter';
-import { MangaMap } from '../../Models/MangaMap';
+import { BaseChapter, Chapter } from '../../Models/API/Chapter';
+import { MangaMap } from '../../Models/API/MangaMap';
 import { addChaptersToDB_ } from './Chapter.db.service';
 import { getPool } from './Database';
 import { mangaExistById_, refreshMangaLastUpdate_ } from './Manga.db.service';

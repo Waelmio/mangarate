@@ -11,7 +11,7 @@ import {
 } from "tsoa";
 import * as MangaDBService from "../Services/database/Manga.db.service";
 import * as MangaService from "../Services/Manga.service";
-import { Manga } from "../Models/Manga";
+import { Manga } from "../Models/API/Manga";
 import { ApiError, ApiResponseError } from "../common/ApiError";
 import { BadUrlException, ContentPageNotFoundError, MangaContentPageExistError, MangaIdNotFoundError, ProviderNotImplemented } from "../common/Error";
 import { Logger } from "tslog";

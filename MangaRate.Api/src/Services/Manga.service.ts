@@ -1,4 +1,4 @@
-import { BaseManga } from "../Models/Manga";
+import { BaseManga } from "../Models/API/Manga";
 import { MangaInfoProvider } from "../Providers/MangaInfoProvider";
 import { MangaInfoProviderFactory } from "../Providers/MangaInfoProvider.factory";
 import { addMangaToDB, mangaExistByContentUrl } from "./database/Manga.db.service";

@@ -1,12 +1,10 @@
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { Observable, of as observableOf } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { Manga } from '../../../../MangaRate.Api/src/Models/Manga';
+import { Manga } from '../Models/API/Manga';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Chapters } from '../../../../MangaRate.Api/src/Models/Chapters';
-import { Chapter } from '../../../../MangaRate.Api/src/Models/Chapter';
+import { ChapterMap } from '../Models/API/ChapterMap';
+import { Chapter } from '../Models/API/Chapter';
 import { MatTableDataSource } from '@angular/material/table';
 import { FollowedMangasDataHandler } from './FollowedMangasDataHandler';
 
@@ -87,7 +85,7 @@ export class FollowedMangasComponent implements AfterViewInit, OnInit {
         return this.followedSourceHandler.getChapterSource(manga);
     }
 
-    getChaptersArray(chapters: Chapters): Chapter[] {
+    getChaptersArray(chapters: ChapterMap): Chapter[] {
         return Object.values(chapters);
     }
 

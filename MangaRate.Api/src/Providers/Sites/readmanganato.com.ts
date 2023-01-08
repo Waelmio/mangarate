@@ -1,5 +1,5 @@
 import { ContentPageNotFoundError } from "../../common/Error";
-import { BaseChapter } from "../../Models/Chapter";
+import { BaseChapter } from "../../Models/API/Chapter";
 import { MangaInfoProvider } from "../MangaInfoProvider";
 import { Logger } from "tslog";
 import cheerio from 'cheerio';

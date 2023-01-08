@@ -3,8 +3,8 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { map, Observable, tap } from "rxjs";
 import { environment } from "src/environments/environment";
-import { Chapter } from "../../../../MangaRate.Api/src/Models/Chapter";
-import { Manga } from "../../../../MangaRate.Api/src/Models/Manga";
+import { Chapter } from "../Models/API/Chapter";
+import { Manga } from "../Models/API/Manga";
 
 export class FollowedMangasDataHandler {
 

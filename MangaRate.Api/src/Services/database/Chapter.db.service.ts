@@ -1,6 +1,6 @@
 import { PoolClient, QueryResult } from "pg";
 import { Logger } from "tslog";
-import { BaseChapter, Chapter } from "../../Models/Chapter";
+import { BaseChapter, Chapter } from "../../Models/API/Chapter";
 
 const log = new Logger();
 

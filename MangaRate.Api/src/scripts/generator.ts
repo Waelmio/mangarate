@@ -1,10 +1,10 @@
-import { BaseManga, Manga } from "../Models/Manga";
+import { BaseManga, Manga } from "..//Models/API/Manga";
 import { faker } from '@faker-js/faker';
-import { BaseChapter } from "../Models/Chapter";
+import { BaseChapter } from "../Models/API/Chapter";
 import { addMangaToDB } from "../Services/database/Manga.db.service";
 import { addNotificationsToDB } from "../Services/database/Notification.db.service";
 
-export async function MangaGenerator(amount: number = -1): Promise<BaseManga[]> {
+export async function MangaGenerator(amount = -1): Promise<BaseManga[]> {
     const mangas_to_be: BaseManga[] = [];
 
     let how_much = amount;
@@ -39,7 +39,7 @@ export async function MangaGenerator(amount: number = -1): Promise<BaseManga[]> 
     return mangas_to_be;
 }
 
-export async function FollowedMangaGeneratorSaver(amount: number = -1): Promise<void> {
+export async function FollowedMangaGeneratorSaver(amount = -1): Promise<void> {
     const mangas_to_be: BaseManga[] = await MangaGenerator(amount);
     
     const mangas_to_be_prom: Promise<Manga>[] = [];
@@ -47,7 +47,7 @@ export async function FollowedMangaGeneratorSaver(amount: number = -1): Promise<
     mangas_to_be.forEach((manga) => mangas_to_be_prom.push(addMangaToDB(manga)));
     const mangas: Manga[] = await Promise.all(mangas_to_be_prom);
 
-    const notifs_prom: Promise<void>[] = []
+    const notifs_prom: Promise<void>[] = [];
 
     mangas.forEach((manga) => notifs_prom.push(addNotificationsToDB(manga.id, Object.values(manga.chapters))));
 
@@ -56,7 +56,7 @@ export async function FollowedMangaGeneratorSaver(amount: number = -1): Promise<
 
 async function main() {
     if (process.env.FOLLOWED_MANGAS) {
-        await FollowedMangaGeneratorSaver(parseInt(process.env.FOLLOWED_MANGAS))
+        await FollowedMangaGeneratorSaver(parseInt(process.env.FOLLOWED_MANGAS));
     }
 }
 
