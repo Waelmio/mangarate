@@ -21,8 +21,11 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@ngxs-labs/dispatch-decorator": "^4.0.2",
+    "@ngxs/store": "^3.7.6",
     "config": "^3.3.7",
     "ngx-skeleton-loader": "^5.0.0",
+    "ngx-spinner": "^13.1.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

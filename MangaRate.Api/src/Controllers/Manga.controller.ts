@@ -60,16 +60,18 @@ export class MangaController extends Controller {
      * @param url Url of a chapter or of the content page of the manga
     */
     @SuccessResponse(201, "Manga Registered")
+    @Response<ApiResponseError>(409, "Manga already registered")
     @Response<ApiResponseError>(415, "Validation Failed")
     @Response<ApiResponseError>(422, "Unable to use URL to find Manga")
     @Response<ApiResponseError>(501, "Website not implemented")
     @Put()
     public async registerManga(
         @Query() url: string
-    ) {
+    ): Promise<Manga> {
         try {
-            await MangaService.registerManga(url);
+            const addedManga = await MangaService.registerManga(url);
             this.setStatus(201);
+            return addedManga;
         }
         catch (ex) {
             if (ex instanceof BadUrlException) {

@@ -14,7 +14,6 @@ export class AddMangaComponent {
 
     subscribeToManga(url: string): void {
         const requestUrl = this.root_url + `api/manga`;
-        console.log("I was called for " + JSON.stringify(url));
         const params = new HttpParams().set('url', url);
 
         this._httpClient.put(

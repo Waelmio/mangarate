@@ -1,4 +1,4 @@
-import { BaseManga } from "../Models/API/Manga";
+import { BaseManga, Manga } from "../Models/API/Manga";
 import { MangaInfoProvider } from "../Providers/MangaInfoProvider";
 import { MangaInfoProviderFactory } from "../Providers/MangaInfoProvider.factory";
 import { addMangaToDB, mangaExistByContentUrl } from "./database/Manga.db.service";
@@ -11,7 +11,7 @@ const log = new Logger();
  * 
  * @throws BadUrlException | ProviderNotImplemented | ContentPageNotFoundError | MangaContentPageExistError
  */
-export async function registerManga(url: string): Promise<void> {
+export async function registerManga(url: string): Promise<Manga> {
     const start_time = process.hrtime();
     log.info(`Adding manga at ${url} to the database.`);
 
@@ -29,11 +29,13 @@ export async function registerManga(url: string): Promise<void> {
         let timed = ((stop_time[0] * 1e9 + stop_time[1]) / 1e9).toFixed(3);
         log.info(`Extracted manga at ${url} in ${timed}s for ${manga.chapters.length} chapters.`);
         
-        await addMangaToDB(manga);
+        const addedManga = await addMangaToDB(manga);
         
         stop_time = process.hrtime(start_time);
         timed = ((stop_time[0] * 1e9 + stop_time[1]) / 1e9).toFixed(3);
         log.info(`Adding manga at ${url} finished in ${timed}s.`);
+
+        return addedManga;
     }
     catch (ex) {
         const stop_time = process.hrtime(start_time);
