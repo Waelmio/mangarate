@@ -4,12 +4,7 @@
         fxLayoutGap="32px grid"
     >
         <app-followed-manga
-            [fxFlex]="'0 0 ' + (100/5) +'%'"
-            [fxFlex.gt-lg]="'0 0 ' + (100/8) +'%'"
-            [fxFlex.lg]="'0 0 ' + (100/6) +'%'"
-            [fxFlex.md]="'0 0 ' + (100/4) +'%'"
-            [fxFlex.sm]="'0 0 ' + (100/3) +'%'"
-            [fxFlex.lt-sm]="'0 0 ' + (100/1) +'%'"
+            class="followed-manga"
             *ngFor="let manga of mangas"
             [manga]="manga"
         ></app-followed-manga>

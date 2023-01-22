@@ -1,3 +1,45 @@
 .content {
     padding: 32px;
 }
+
+.followed-manga {
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: calc(100% / 5);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 599x) {
+    .followed-manga {
+        flex-basis: calc(100% / 1);
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .followed-manga {
+        flex-basis: calc(100% / 3);
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 960px) {
+    .followed-manga {
+        flex-basis: calc(100% / 4);
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 1280px) {
+    .followed-manga {
+        flex-basis: calc(100% / 6);
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1920px) {
+    .followed-manga {
+        flex-basis: calc(100% / 8);
+    }
+}

@@ -1,8 +1,5 @@
 <mat-card 
     class="mat-elevation-z4"
-    fxLayoutAlign="start stretch"
-    fxLayout="column"
-    fxFlex
     materialElevation
     *ngIf="manga !== null"
     (click)="openAndMarkChapterRead($event)"
@@ -19,12 +16,12 @@
             </div>
         </div>
     </div>
-    <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <a fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button" (click)="markAllChaptersRead($event)"><mat-icon>done</mat-icon></a>
-        <div fxFlex="33%" class="chapter-count">
+    <mat-card-actions>
+        <a materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button mat-card-actions" (click)="markAllChaptersRead($event)"><mat-icon>done</mat-icon></a>
+        <div class="chapter-count mat-card-actions">
             <mat-card-title>{{ chapters.length }}</mat-card-title>
             <mat-card-subtitle>{{ getChaptersToRead() }}</mat-card-subtitle>
         </div>
-        <button fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button"  target="_blank" (click)="openAndMarkChapterRead($event)"><mat-icon>open_in_new</mat-icon></button>
+        <button materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button mat-card-actions"  target="_blank" (click)="openAndMarkChapterRead($event)"><mat-icon>open_in_new</mat-icon></button>
     </mat-card-actions>
 </mat-card>

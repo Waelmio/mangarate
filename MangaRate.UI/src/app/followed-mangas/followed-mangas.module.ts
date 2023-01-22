@@ -4,7 +4,6 @@ import { FollowedMangasDisplayComponent } from './followed-mangas-display/follow
 import { FollowedMangaComponent } from './followed-manga/followed-manga.component';
 import { FollowedMangasDisplayContainerComponent } from './followed-mangas-display-container/followed-mangas-display-container.component';
 import { MaterialModule } from '@app/material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialElevationDirective } from './followed-manga/materal-elevation.directive';
 
 
@@ -18,7 +17,6 @@ import { MaterialElevationDirective } from './followed-manga/materal-elevation.d
   ],
   imports: [
     CommonModule,
-    FlexLayoutModule,
     MaterialModule
   ],
   exports: [
