@@ -1,3 +1,3 @@
 <app-followed-mangas-display
-    [mangas]="mangas$ | async"
+    [mangas]="(mangas$ | async) ?? []"
 ></app-followed-mangas-display>

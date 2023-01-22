@@ -1,0 +1,67 @@
+.mat-card-header {
+    justify-content: center;
+    text-align: center;
+}
+
+.mat-card-image {
+    margin-bottom: 0px;
+}
+
+/* Container holding the cover-image and the text */
+.cover-image-container {
+    position: relative;
+    text-align: center;
+    color: black;
+    width: 100%;
+    height: 100%;
+}
+
+.cover-image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.cover-image-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.cover-image-container:hover .cover-image {
+    opacity: 0.1;
+}
+
+.cover-image-container:hover .cover-image-overlay {
+    opacity: 1;
+}
+
+.cover-text {
+    color: white;
+    padding: 16px;
+    font-size: 32px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-button {
+    width: 100%;
+    height: 48px;
+}
+
+.chapter-count {
+    text-align: center;
+}

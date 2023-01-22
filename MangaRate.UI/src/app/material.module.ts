@@ -10,10 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
     imports: [
+        MatCardModule,
         MatSidenavModule,
         MatToolbarModule,
         MatIconModule,
@@ -26,6 +28,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatExpansionModule
     ],
     exports: [
+        MatCardModule,
         MatSidenavModule,
         MatToolbarModule,
         MatIconModule,

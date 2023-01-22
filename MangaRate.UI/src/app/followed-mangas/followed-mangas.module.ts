@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FollowedMangasDisplayComponent } from './followed-mangas-display/followed-mangas-display.component';
 import { FollowedMangaComponent } from './followed-manga/followed-manga.component';
 import { FollowedMangasDisplayContainerComponent } from './followed-mangas-display-container/followed-mangas-display-container.component';
+import { MaterialModule } from '@app/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialElevationDirective } from './followed-manga/materal-elevation.directive';
 
 
 
@@ -10,10 +13,13 @@ import { FollowedMangasDisplayContainerComponent } from './followed-mangas-displ
   declarations: [
     FollowedMangasDisplayComponent,
     FollowedMangaComponent,
-    FollowedMangasDisplayContainerComponent
+    FollowedMangasDisplayContainerComponent,
+    MaterialElevationDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FlexLayoutModule,
+    MaterialModule
   ],
   exports: [
     FollowedMangasDisplayContainerComponent

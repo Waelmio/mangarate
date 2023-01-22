@@ -14,6 +14,6 @@
     },
     "watcher": {
         "enabled": true,
-        "interval": 0.5
+        "interval": 5
     }
 }

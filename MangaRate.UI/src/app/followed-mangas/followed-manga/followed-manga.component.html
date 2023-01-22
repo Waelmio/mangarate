@@ -1,1 +1,19 @@
-<p>followed-manga works!</p>
+<mat-card materialElevation class="mat-elevation-z4" *ngIf="manga !== null" fxFlex fxLayout="column" fxLayoutAlign="start stretch">
+    <div mat-card-image>
+        <div class="cover-image-container">
+            <img
+                src="./../../../assets/images/placeholder.png"
+                alt="Manga Cover"
+                class="cover-image"
+            >
+            <div class="cover-image-overlay">
+                <h3 class="cover-text">{{ manga.name }}</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <a fxFlex="33%" mat-icon-button><mat-icon>done</mat-icon></a>
+        <div fxFlex="33%" class="chapter-count"><h1>{{ chapters.length }}</h1></div>
+        <a fxFlex="33%" mat-icon-button target="_blank" [attr.href]="linkToNextChapter()"><mat-icon>open_in_new</mat-icon></a>
+    </mat-card-actions>
+</mat-card>
