@@ -1,3 +1,7 @@
+.mat-card {
+    cursor: pointer;
+}
+
 .mat-card-header {
     justify-content: center;
     text-align: center;
@@ -64,4 +68,17 @@
 
 .chapter-count {
     text-align: center;
+}
+
+.chapter-count > mat-card-subtitle {
+    margin-bottom: 0px;
+}
+
+.manga-card-button:hover {
+}
+
+.manga-card-button {
+    height: 100%;
+    width: 100%;
+    border-radius: 0%;
 }

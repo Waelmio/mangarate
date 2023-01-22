@@ -1,19 +1,30 @@
-<mat-card materialElevation class="mat-elevation-z4" *ngIf="manga !== null" fxFlex fxLayout="column" fxLayoutAlign="start stretch">
+<mat-card 
+    class="mat-elevation-z4"
+    fxLayoutAlign="start stretch"
+    fxLayout="column"
+    fxFlex
+    materialElevation
+    *ngIf="manga !== null"
+    (click)="openAndMarkChapterRead($event)"
+>
     <div mat-card-image>
         <div class="cover-image-container">
             <img
                 src="./../../../assets/images/placeholder.png"
                 alt="Manga Cover"
                 class="cover-image"
-            >
+            />
             <div class="cover-image-overlay">
                 <h3 class="cover-text">{{ manga.name }}</h3>
             </div>
         </div>
     </div>
     <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <a fxFlex="33%" mat-icon-button><mat-icon>done</mat-icon></a>
-        <div fxFlex="33%" class="chapter-count"><h1>{{ chapters.length }}</h1></div>
-        <a fxFlex="33%" mat-icon-button target="_blank" [attr.href]="linkToNextChapter()"><mat-icon>open_in_new</mat-icon></a>
+        <a fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button" (click)="markAllChaptersRead($event)"><mat-icon>done</mat-icon></a>
+        <div fxFlex="33%" class="chapter-count">
+            <mat-card-title>{{ chapters.length }}</mat-card-title>
+            <mat-card-subtitle>{{ getChaptersToRead() }}</mat-card-subtitle>
+        </div>
+        <button fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button"  target="_blank" (click)="openAndMarkChapterRead($event)"><mat-icon>open_in_new</mat-icon></button>
     </mat-card-actions>
 </mat-card>
