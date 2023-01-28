@@ -1,3 +1,9 @@
 .content {
     padding: 32px;
 }
+
+.nothing-here {
+    text-align: center;
+    opacity: 0.7;
+    color: grey;
+}

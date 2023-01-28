@@ -2,6 +2,7 @@
     <div 
         fxLayout="row wrap"
         fxLayoutGap="32px grid"
+        *ngIf="mangas.length > 0"
     >
         <app-followed-manga
             [fxFlex]="'0 0 ' + (100/5) +'%'"
@@ -14,4 +15,6 @@
             [manga]="manga"
         ></app-followed-manga>
     </div>
+
+    <h1 class="nothing-here" *ngIf="mangas.length === 0">No mangas followed</h1>
 </div>
