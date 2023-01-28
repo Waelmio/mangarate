@@ -5,17 +5,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from '@angular/cdk/layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ToastrModule } from 'ngx-toastr';
 
 import { MangaHomeComponent } from './mangahome/mangahome.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AddMangaComponent } from './addmanga/addmanga.component';
 
-import { LayoutModule } from '@angular/cdk/layout';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MaterialModule } from './material.module';
-import { StoreModule } from '@core/store/store.module';
 import { FollowedMangasModule } from './followed-mangas/followed-mangas.module';
+import { CoreModule } from '@core/core.module';
 
 
 @NgModule({
@@ -34,8 +35,9 @@ import { FollowedMangasModule } from './followed-mangas/followed-mangas.module';
     FlexLayoutModule,
     NgxSkeletonLoaderModule,
     HttpClientModule,
-    StoreModule,
-    FollowedMangasModule
+    CoreModule,
+    FollowedMangasModule,
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,7 +9,9 @@ import { environment } from "src/environments/environment";
 })
 export class AddMangaComponent {
 
-    constructor(private _httpClient: HttpClient) { }
+    constructor(
+        private _httpClient: HttpClient
+    ) { }
     public root_url = environment.api.baseUrl;
 
     subscribeToManga(url: string): void {
