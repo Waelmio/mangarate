@@ -46,6 +46,23 @@ export class FollowedMangasService {
             );
     }
 
+
+    public markChapterAsRead(chapter_id: number): Observable<void> {
+        return this.http
+            .delete<void>(`${this.baseUrl}api/notification/chapter/${chapter_id}`)
+            .pipe(
+                catchError(this.handleIntermediateError.bind(this))
+            );
+    }
+
+    public markMangaAsRead(manga_id: number): Observable<void> {
+        return this.http
+            .delete<void>(`${this.baseUrl}api/notification/manga/${manga_id}`)
+            .pipe(
+                catchError(this.handleIntermediateError.bind(this))
+            );
+    }
+
     private catchErrorAndRetry<T>() {
         return pipe(
             catchError(this.handleIntermediateError.bind(this)),

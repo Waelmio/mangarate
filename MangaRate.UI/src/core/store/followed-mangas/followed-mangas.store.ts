@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MangaMap } from '@core/Models/API/Manga';
 import { Selector, State, Action, StateContext } from '@ngxs/store';
-import { AddFollowedManga, LoadFollowedMangas } from './followed-mangas.actions';
+import { LoadFollowedManga, LoadAllFollowedMangas, RemoveFollowedManga } from './followed-mangas.actions';
 
 export interface FollowedMangasStateModel {
     mangaMap: MangaMap;
@@ -23,17 +23,24 @@ export class FollowedMangasState {
         return Object.values(state.mangaMap);
     }
 
-    @Action(AddFollowedManga)
-    add({ getState, setState }: StateContext<FollowedMangasStateModel>, { manga }: AddFollowedManga) {
+    @Action(LoadAllFollowedMangas)
+    loadAll({ setState }: StateContext<FollowedMangasStateModel>, { mangas }: LoadAllFollowedMangas) {
+        const mangasMap: MangaMap = {};
+        mangas.forEach((manga) => mangasMap[manga.id] = manga);
+        setState({ mangaMap: mangasMap });
+    }
+    
+    @Action(LoadFollowedManga)
+    load({ getState, setState }: StateContext<FollowedMangasStateModel>, { manga }: LoadFollowedManga) {
         const state = getState();
         state.mangaMap[manga.id] = manga;
         setState(state);
     }
 
-    @Action(LoadFollowedMangas)
-    loadAll({ setState }: StateContext<FollowedMangasStateModel>, { mangas }: LoadFollowedMangas) {
-        const mangasMap: MangaMap = {};
-        mangas.forEach((manga) => mangasMap[manga.id] = manga);
-        setState({ mangaMap: mangasMap });
+    @Action(RemoveFollowedManga)
+    remove({ getState, setState }: StateContext<FollowedMangasStateModel>, { manga }: RemoveFollowedManga) {
+        const state = getState();
+        delete state.mangaMap[manga.id];
+        setState(state);
     }
 }

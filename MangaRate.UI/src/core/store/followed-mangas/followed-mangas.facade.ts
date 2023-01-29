@@ -7,7 +7,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FollowedMangasService } from './followed-mangas.service';
 import { FollowedMangasState } from './followed-mangas.store';
 import { Manga } from '@core/Models/API/Manga';
-import { LoadFollowedMangas } from './followed-mangas.actions';
+import { LoadAllFollowedMangas } from './followed-mangas.actions';
+import { Chapter } from '@core/Models/API/Chapter';
 
 @Injectable({ providedIn: 'root' })
 export class FollowedMangasFacade {
@@ -24,7 +25,7 @@ export class FollowedMangasFacade {
     this.spinner.show();
     return this.followedMangasService.getAllFollowedMangas()
         .pipe(
-            map((mangas) => new LoadFollowedMangas(mangas)),
+            map((mangas) => new LoadAllFollowedMangas(mangas)),
             finalize(() => this.spinner.hide())
         );
   };
@@ -35,6 +36,27 @@ export class FollowedMangasFacade {
         .pipe(
             tap(_ => this.loadAll()),
             finalize(() => this.spinner.hide())
-        ).subscribe();
+        )
+        .subscribe();;
+  };
+
+  public markChapterAsRead = (chapter: Chapter) => {
+    this.spinner.show();
+    return this.followedMangasService.markChapterAsRead(chapter.id)
+        .pipe(
+            tap(_ => this.loadAll()),
+            finalize(() => this.spinner.hide())
+        )
+        .subscribe();
+  };
+
+  public markMangaAsRead = (manga: Manga) => {
+    this.spinner.show();
+    return this.followedMangasService.markMangaAsRead(manga.id)
+        .pipe(
+            tap(_ => this.loadAll()),
+            finalize(() => this.spinner.hide())
+        )
+        .subscribe();
   };
 }

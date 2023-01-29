@@ -21,11 +21,15 @@
         </div>
     </div>
     <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <a fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button" (click)="markAllChaptersRead($event)"><mat-icon>done_all</mat-icon></a>
+        <button fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button" (click)="markMangaAsRead($event)">
+            <mat-icon>done_all</mat-icon>
+        </button>
         <div fxFlex="33%" class="chapter-count">
             <mat-card-title>{{ chapters.length }}</mat-card-title>
             <mat-card-subtitle>{{ getChaptersToRead() }}</mat-card-subtitle>
         </div>
-        <button fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button"  target="_blank" (click)="openAndMarkChapterRead($event)"><mat-icon>open_in_new</mat-icon></button>
+        <button fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button" (click)="openAndMarkChapterRead($event)">
+            <mat-icon>open_in_new</mat-icon>
+        </button>
     </mat-card-actions>
 </mat-card>

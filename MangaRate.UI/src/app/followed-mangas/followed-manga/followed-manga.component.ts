@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Chapter } from '@core/Models/API/Chapter';
 import { Manga } from '@core/Models/API/Manga';
+import { FollowedMangasFacade } from '@core/store/followed-mangas/followed-mangas.facade';
 
 @Component({
     selector: 'app-followed-manga',
@@ -11,6 +12,10 @@ export class FollowedMangaComponent implements OnInit {
     @Input() manga!: Manga;
 
     chapters: Chapter[] = [];
+
+    constructor(
+        private _followedMangasFacade: FollowedMangasFacade
+      ) {}
 
     ngOnInit(): void {
         this.chapters = Object.values(this.manga.chapters);
@@ -35,13 +40,15 @@ export class FollowedMangaComponent implements OnInit {
     openAndMarkChapterRead(e: Event) {
         e.stopPropagation();
         window.open(this.chapters[0].url, "_blank");
+        this._followedMangasFacade.markChapterAsRead(this.chapters[0]);
     }
 
     openContentPage() {
         window.open(this.manga.content_page_url, "_blank");
     }
 
-    markAllChaptersRead(e: Event) {
+    markMangaAsRead(e: Event) {
         e.stopPropagation();
+        this._followedMangasFacade.markMangaAsRead(this.manga);
     }
 }
