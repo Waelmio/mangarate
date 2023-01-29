@@ -78,16 +78,15 @@ export class MangaController extends Controller {
                 throw new ApiError(ex.message, 422);
             }
             else if (ex instanceof ProviderNotImplemented) {
-                log.warn(ex);
+                log.warn(ex.message);
                 throw new ApiError(ex.message, 501);
-
             }
             else if (ex instanceof ContentPageNotFoundError) {
                 throw new ApiError(ex.message, 422);
             }
             else if (ex instanceof MangaContentPageExistError) {
                 throw new ApiError(
-                    'A manga with content page url "' + ex.contentUrl + '" already exist.',
+                    'This manga already exists in database.',
                     409
                 );
             }

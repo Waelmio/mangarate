@@ -11,7 +11,7 @@
             [fxFlex.md]="'0 0 ' + (100/4) +'%'"
             [fxFlex.sm]="'0 0 ' + (100/3) +'%'"
             [fxFlex.lt-sm]="'0 0 ' + (100/1) +'%'"
-            *ngFor="let manga of mangas"
+            *ngFor="let manga of orderedMangas"
             [manga]="manga"
         ></app-followed-manga>
     </div>

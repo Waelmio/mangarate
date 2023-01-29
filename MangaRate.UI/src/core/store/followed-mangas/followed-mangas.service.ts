@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of, pipe, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Manga } from '@core/Models/API/Manga';
 import { AlertsService } from '@core/alerts/alerts.service';
@@ -32,6 +32,20 @@ export class FollowedMangasService {
             }));
     }
 
+    public followManga(content_page_url: string): Observable<Manga> {
+        const params = new HttpParams().set('url', content_page_url);
+        return this.http
+            .put<Manga>(
+                `${this.baseUrl}api/manga`,
+                {},
+                {'params': params}
+            )
+            .pipe(
+                catchError(this.handleIntermediateError.bind(this)),
+                tap((manga) => this.alert.success(`${manga.name} added !`))
+            );
+    }
+
     private catchErrorAndRetry<T>() {
         return pipe(
             catchError(this.handleIntermediateError.bind(this)),
@@ -42,17 +56,20 @@ export class FollowedMangasService {
     private handleIntermediateError(error: HttpErrorResponse) {
         const error_code = error.status;
         let http_error_message = error.message;
-        try {
-            http_error_message = JSON.parse(error.message).message;
-        }
-        catch (err) {
-            // Response error was not JSON
-        }
-
-        const error_message = `Error ${error_code}: ${http_error_message}. \n`;
-        console.error(error_message, error);
+        let error_message = `Server Error ${error_code}: ${http_error_message}.`;
         
-        this.alert.error("Error while trying to reach API. Retrying in 1s...", 1500);
+        try {
+            // Response error is our ApiResponseError
+            if (error.error.message) {
+                http_error_message = error.error.message;
+                error_message = `Error: ${http_error_message}`;
+            }
+        }
+        catch (err) {}
+
+        console.error(error_message + "\n", error);
+        
+        this.alert.error(error_message);
 
         return throwError(() => error);
     }

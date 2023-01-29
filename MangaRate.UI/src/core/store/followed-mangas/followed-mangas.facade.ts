@@ -28,4 +28,13 @@ export class FollowedMangasFacade {
             finalize(() => this.spinner.hide())
         );
   };
+
+  public followManga = (content_page_url: string) => {
+    this.spinner.show();
+    return this.followedMangasService.followManga(content_page_url)
+        .pipe(
+            tap(_ => this.loadAll()),
+            finalize(() => this.spinner.hide())
+        ).subscribe();
+  };
 }
