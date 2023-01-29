@@ -5,7 +5,6 @@ export class Manga {
         return first.name == second.name
             && first.description == second.description
             && first.content_page_url == second.content_page_url
-            && first.cover_image == second.cover_image
-            && first.last_update == second.last_update;
+            && first.cover_image == second.cover_image;
     }
 }
