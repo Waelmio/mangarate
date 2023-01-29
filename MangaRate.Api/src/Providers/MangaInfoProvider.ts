@@ -67,4 +67,9 @@ export abstract class MangaInfoProvider {
      * Get the description of the manga.
      */
     abstract getDescription(): Promise<string>;
+
+    /**
+     * Get the cover image url of the manga.
+     */
+    abstract getCoverImageUrl(): Promise<string>;
 }

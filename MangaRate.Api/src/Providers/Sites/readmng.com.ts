@@ -52,6 +52,24 @@ export class ReadmngcomProviderInfo extends MangaInfoProvider {
         }
     }
 
+    async getCoverImageUrl(): Promise<string> {
+        try {
+            const cheerioDoc = cheerio.load(this.contentPageHtml);
+            const jsPath = "#content > div > div > div.col-12.col-md-12.col-lg-9 > div > div:nth-child(1) > div > div.productLeft > div > div.thumb > a > img";
+
+            const url = cheerioDoc(jsPath).attr("src");
+
+            if (!url) {
+                throw new Error("Url for cover image was null.");
+            }
+            return url.trim();
+        }
+        catch (ex) {
+            log.error("There was an error getting the Manga description at url \"" + this.contentPageUrl + "\".", ex);
+            throw ex;
+        }
+    }
+
     async getAllChapters(): Promise<BaseChapter[]> {
         try {
             const cheerioDoc = cheerio.load(this.contentPageHtml);

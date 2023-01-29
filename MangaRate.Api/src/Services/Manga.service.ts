@@ -57,11 +57,13 @@ export async function registerManga(url: string): Promise<Manga> {
     const name = mangaInfoProvider.getName();
     const description = mangaInfoProvider.getDescription();
     const chapters = mangaInfoProvider.getAllChapters();
+    const cover_image = mangaInfoProvider.getCoverImageUrl();
 
     const manga: BaseManga = {
         name: await name,
         description: await description,
         content_page_url: mangaInfoProvider.contentPageUrl,
+        cover_image: await cover_image,
         chapters: await chapters,
         last_update: new Date()
     };

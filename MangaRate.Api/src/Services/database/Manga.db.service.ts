@@ -32,6 +32,7 @@ export async function getMangas(): Promise<MangaMap> {
                     name: row.name,
                     description: row.description,
                     content_page_url: row.content_page_url,
+                    cover_image: row.cover_image,
                     chapters: {},
                     last_update: row.last_update
                 };
@@ -86,6 +87,7 @@ export async function getManga(id: number): Promise<Manga> {
             name: rows[0].name,
             description: rows[0].description,
             content_page_url: rows[0].content_page_url,
+            cover_image: rows[0].cover_image,
             chapters: {},
             last_update: rows[0].last_update
         };
@@ -146,14 +148,15 @@ export async function addMangaToDB_(manga: BaseManga, sharedClient: PoolClient):
 
     try {
         const insertMangaText = `
-        INSERT INTO manga (name, description, content_page_url, last_update)
-        VALUES ($1, $2, $3, $4) RETURNING id
+        INSERT INTO manga (name, description, content_page_url, cover_image, last_update)
+        VALUES ($1, $2, $3, $4, $5) RETURNING id
         ;`;
 
         const mangaValues = [
             manga.name,
             manga.description,
             manga.content_page_url,
+            manga.cover_image,
             manga.last_update
         ];
 
@@ -165,6 +168,7 @@ export async function addMangaToDB_(manga: BaseManga, sharedClient: PoolClient):
             id: rows[0].id,
             name: manga.name,
             content_page_url: manga.content_page_url,
+            cover_image: manga.cover_image,
             description: manga.description,
             chapters: {},
             last_update: manga.last_update
@@ -295,6 +299,7 @@ export async function getMangaByContentUrl_(contentUrl: string, sharedClient: Po
             name: rows[0].name,
             description: rows[0].description,
             content_page_url: rows[0].content_page_url,
+            cover_image: rows[0].cover_image,
             chapters: {},
             last_update: rows[0].last_update
         };

@@ -31,6 +31,7 @@ export async function getNotifications(): Promise<MangaMap> {
                     name: row.name,
                     description: row.description,
                     content_page_url: row.content_page_url,
+                    cover_image: row.cover_image,
                     chapters: {},
                     last_update: row.last_update
                 };
