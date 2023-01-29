@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MangaMap } from '@core/Models/API/MangaMap';
+import { MangaMap } from '@core/Models/API/Manga';
 import { Selector, State, Action, StateContext } from '@ngxs/store';
 import { AddFollowedManga, LoadFollowedMangas } from './followed-mangas.actions';
 

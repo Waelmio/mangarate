@@ -1,5 +1,5 @@
 import { ContentPageNotFoundError } from "../../common/Error";
-import { BaseChapter } from "../../Models/API/Chapter";
+import { IBaseChapter } from "../../Models/API/Chapter";
 import { MangaInfoProvider } from "../MangaInfoProvider";
 import { Logger } from "tslog";
 import cheerio from 'cheerio';
@@ -70,7 +70,7 @@ export class ReadmanganatoProviderInfo extends MangaInfoProvider {
         }
     }
 
-    async getAllChapters(): Promise<BaseChapter[]> {
+    async getAllChapters(): Promise<IBaseChapter[]> {
         try {
             const cheerioDoc = cheerio.load(this.contentPageHtml);
             const chapterListPath = "body > div.body-site > div.container.container-main > div.container-main-left > div.panel-story-chapter-list > ul";
@@ -83,7 +83,7 @@ export class ReadmanganatoProviderInfo extends MangaInfoProvider {
 
             const cheerioChaps = cheerio.load(chapterListHtml);
 
-            const ret: BaseChapter[] = [];
+            const ret: IBaseChapter[] = [];
 
             // Match any integer that is between /chapter- and the end
             // Or between /chapter- and the last /.
@@ -116,7 +116,7 @@ export class ReadmanganatoProviderInfo extends MangaInfoProvider {
                     return;
                 }
 
-                const chap: BaseChapter = {
+                const chap: IBaseChapter = {
                     num: chapterNum,
                     url: chapterUrl,
                     release_date: new Date()

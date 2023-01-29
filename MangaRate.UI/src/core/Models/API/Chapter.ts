@@ -1,3 +1,7 @@
+export interface ChapterMap {
+    [id: string]: Chapter;
+}
+
 export interface BaseChapter {
     num: number;
     url: string;

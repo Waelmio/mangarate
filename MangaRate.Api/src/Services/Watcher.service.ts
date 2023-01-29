@@ -1,11 +1,12 @@
 import config from 'config';
 import { Logger } from 'tslog';
-import { BaseChapter } from '../Models/API/Chapter';
-import { BaseManga, Manga } from '../Models/API/Manga';
+import { IBaseChapter } from '../Models/API/Chapter';
+import { IBaseManga, IManga } from '../Models/API/Manga';
+import { Manga } from '../Models/Manga';
 import { getMangas } from './database/Manga.db.service';
-import { addChapsAndNotificationsToDB } from './database/Notification.db.service';
 import { TimedCall } from './log/TimedCall';
-import { extractManga } from './Manga.service';
+import { MangaService } from './Manga.service';
+import { NotificationService } from './Notification.service';
 
 const log = new Logger();
 
@@ -39,6 +40,57 @@ export class Watcher {
         this._watch = false;
     }
 
+    private async watch(): Promise<void> {
+        try {
+            log.info("Watcher on the roll...");
+            const timedCall = new TimedCall();
+
+            const mangas = await getMangas();
+            let manga_amount = 0;
+
+            const mangaUpdatePromises: Promise<IManga>[] = [];
+
+            for (const id in mangas) {
+                mangaUpdatePromises.push(
+                    this.updateManga(mangas[id])
+                );
+                manga_amount++;
+            }
+
+            const updatedMangas: IManga[] = await Promise.all(mangaUpdatePromises);
+
+            let new_chaps_amount = 0;
+            let manga_updated = 0;
+
+            updatedMangas.forEach((upManga) => {
+                const new_chaps_count = Object.keys(upManga.chapters).length - Object.keys(mangas[upManga.id].chapters).length;
+
+                new_chaps_amount += new_chaps_count;
+
+                // If new chap or manga infos changed
+                if (new_chaps_count > 0 || !Manga.infoEquals(upManga, mangas[upManga.id])) {
+                    manga_updated ++;
+                }
+            });
+ 
+            const timed = timedCall.getTimeSinceLastCall();
+            log.info(`Watcher out: ${new_chaps_amount} chapters updated on ${manga_updated}/${manga_amount} mangas in ${timed}s.`);
+        }
+        catch (ex) {
+            log.error("The Watcher encoutered an error !", ex);
+        }
+    }
+
+    private async updateManga(manga: IManga): Promise<IManga> {
+        try {
+            return await MangaService.updateMangaFromProvider(manga);
+        }
+        catch (ex) {
+            log.error("The Watcher encoutered an error trying to update manga [" + manga.id + "] !", ex);
+            return manga;
+        }
+    }
+
     private async watchRandomizer(): Promise<void> {
         try {
             while (this._watch) {
@@ -53,82 +105,6 @@ export class Watcher {
         catch (ex) {
             log.error("The Watcher Randomizer encoutered an error !");
             throw ex;
-        }
-    }
-
-    /**
-     * Add new chapters and their notifications to the database, and refresh last chapter update.
-     */
-    private async addAndNotifyChapters(manga: Manga, newChapsProm: Promise<BaseChapter[]>): Promise<number> {
-        try {
-            const newChaps = await newChapsProm;
-
-            if (newChaps.length === 0) {
-                return 0;
-            }
-
-            await addChapsAndNotificationsToDB(manga.id, newChaps);
-            return newChaps.length;
-        }
-        catch (ex) {
-            log.error("Error when trying to add and notify new chapters for manga [" + manga.name + "] of id [" + manga.id + "] for Watcher.", ex);
-            return 0;
-        }
-    }
-
-    /**
-     * Find new chaps.
-     */
-    private async getNewChaps(manga: Manga, extrMangaProm: Promise<BaseManga>): Promise<BaseChapter[]> {
-        const ret: BaseChapter[] = [];
-
-        try {
-            const extrManga = await extrMangaProm;
-
-            let max_num = -1;
-
-            for (const id in manga.chapters) {
-                if (manga.chapters[id].num > max_num) {
-                    max_num = manga.chapters[id].num;
-                }
-            }
-
-            extrManga.chapters.forEach((chap) => {
-                if (chap.num > max_num) {
-                    ret.push(chap);
-                }
-            });
-        }
-        catch (ex) {
-            log.error("Error when trying to get new chapters for manga: ", manga.name, ex);
-        }
-        return ret;
-    }
-
-    private async watch(): Promise<void> {
-        try {
-            log.info("Watcher on the roll...");
-            const timedCall = new TimedCall();
-
-            const mangas = await getMangas();
-            let manga_amount = 0;
-
-            const notifPromises: Promise<number>[] = [];
-
-            for (const id in mangas) {
-                const newChapsProm = this.getNewChaps(mangas[id], extractManga(mangas[id].content_page_url));
-                notifPromises.push(
-                    this.addAndNotifyChapters(mangas[id], newChapsProm)
-                );
-                manga_amount++;
-            }
-            const newChapsAmount: number = (await Promise.all(notifPromises)).reduce((a, b) => a + b, 0);
- 
-            const timed = timedCall.getTimeSinceLastCall();
-            log.info(`Watcher out: ${newChapsAmount} chapters updated on ${manga_amount} mangas in ${timed}s.`);
-        }
-        catch (ex) {
-            log.error("The Watcher encoutered an error !", ex);
         }
     }
 

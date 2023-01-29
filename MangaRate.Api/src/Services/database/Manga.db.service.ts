@@ -1,9 +1,8 @@
 import { Logger } from "tslog";
-import { MangaMap } from '../../Models/API/MangaMap';
-import { BaseManga, Manga } from '../../Models/API/Manga';
+import { IBaseManga, IManga, IMangaMap } from '../../Models/API/Manga';
 import { getPool } from './Database';
 import { PoolClient, QueryResult } from 'pg';
-import { MangaIdNotFoundError } from "../../common/Error";
+import { MangaIdNotFoundError, MangaWithContentPageNotFoundError } from "../../common/Error";
 import { MangaContentPageExistError, MangaContentPageNotFoundError } from "../../common/Error";
 
 const log = new Logger();
@@ -11,7 +10,7 @@ const log = new Logger();
 /**
  * Get all mangas in database with chapters ordered by their number, in descending order.
  */
-export async function getMangas(): Promise<MangaMap> {
+export async function getMangas(): Promise<IMangaMap> {
     const queryText = `
     SELECT M.id m_id, *, C.id chapter_id FROM manga as M
     LEFT JOIN chapter as C
@@ -23,33 +22,8 @@ export async function getMangas(): Promise<MangaMap> {
 
     try {
         const rows = (await pool.query(queryText)).rows;
-        const ret: MangaMap = {};
 
-        rows.forEach((row) => {
-            if (!ret[row.m_id]) {
-                ret[row.m_id] = {
-                    id: row.m_id,
-                    name: row.name,
-                    description: row.description,
-                    content_page_url: row.content_page_url,
-                    cover_image: row.cover_image,
-                    chapters: {},
-                    last_update: row.last_update
-                };
-            }
-
-            if (row.chapter_id) {
-                ret[row.m_id].chapters[row.chapter_id] = {
-                    id: row.chapter_id,
-                    num: row.num,
-                    url: row.url,
-                    release_date: row.release_date
-                };
-            }
-        });
-
-
-        return ret;
+        return rowsToMangaMap(rows);
     }
     catch (ex) {
         log.error("Error when trying to get all mangas !", ex);
@@ -61,7 +35,7 @@ export async function getMangas(): Promise<MangaMap> {
  * 
  * @throws MangaIdNotFoundError
  */
-export async function getManga(id: number): Promise<Manga> {
+export async function getManga(id: number): Promise<IManga> {
     const queryText = `
     SELECT M.id m_id, *, C.id chapter_id FROM manga as M
     LEFT JOIN chapter as c
@@ -79,32 +53,7 @@ export async function getManga(id: number): Promise<Manga> {
         if (queryRes.rowCount === 0) {
             throw new MangaIdNotFoundError(id);
         }
-
-        const rows = queryRes.rows;
-
-        const ret: Manga = {
-            id: rows[0].m_id,
-            name: rows[0].name,
-            description: rows[0].description,
-            content_page_url: rows[0].content_page_url,
-            cover_image: rows[0].cover_image,
-            chapters: {},
-            last_update: rows[0].last_update
-        };
-
-        rows.forEach((row) => {
-            if (row.chapter_id) {
-                ret.chapters[row.chapter_id] = {
-                    id: row.chapter_id,
-                    num: row.num,
-                    url: row.url,
-                    release_date: row.release_date
-                };
-            }
-        });
-
-
-        return ret;
+        return Object.values(rowsToMangaMap(queryRes.rows))[0];
     }
     catch (ex) {
         if (!(ex instanceof MangaIdNotFoundError)) {
@@ -118,7 +67,7 @@ export async function getManga(id: number): Promise<Manga> {
  * 
  * @throws MangaContentPageExistError
  */
-export async function addMangaToDB(manga: BaseManga): Promise<Manga> {
+export async function addMangaToDB(manga: IBaseManga): Promise<IManga> {
 
     const client = await getPool().connect();
 
@@ -142,7 +91,7 @@ export async function addMangaToDB(manga: BaseManga): Promise<Manga> {
     }
 }
 
-export async function addMangaToDB_(manga: BaseManga, sharedClient: PoolClient): Promise<Manga> {
+export async function addMangaToDB_(manga: IBaseManga, sharedClient: PoolClient): Promise<IManga> {
 
     const client = sharedClient;
 
@@ -164,7 +113,7 @@ export async function addMangaToDB_(manga: BaseManga, sharedClient: PoolClient):
 
         const rows = queryRes.rows;
 
-        const ret: Manga = {
+        const ret: IManga = {
             id: rows[0].id,
             name: manga.name,
             content_page_url: manga.content_page_url,
@@ -233,9 +182,69 @@ export async function refreshMangaLastUpdate_(manga_id: number, sharedClient: Po
 
 /**
  * 
+ * @throws MangaIdNotFoundError
+ */
+export async function updateMangaInfo(baseManga: IBaseManga): Promise<IManga> {
+
+    const client = await getPool().connect();
+
+    try {
+        await client.query('BEGIN');
+
+        if (!await mangaExistByContentUrl_(baseManga.content_page_url, client)) {
+            throw new MangaWithContentPageNotFoundError(baseManga.content_page_url);
+        }
+        await updateMangaInfo_(baseManga, client);
+        
+        await client.query('COMMIT');
+        const ret = await getMangaByContentUrl(baseManga.content_page_url);
+        return ret;
+    }
+    catch (ex) {
+        await client.query('ROLLBACK');
+        throw ex;
+    }
+    finally {
+        client.release();
+    }
+}
+
+export async function updateMangaInfo_(baseManga: IBaseManga, sharedClient: PoolClient): Promise<void> {
+
+    const client = sharedClient;
+
+    try {
+        const updateMangaText = `
+        UPDATE manga 
+        SET
+            name = $1,
+            description = $2,
+            cover_image = $3,
+            last_update = $4
+        WHERE content_page_url = $5;
+        ;`;
+
+        const mangaValues = [
+            baseManga.name,
+            baseManga.description,
+            baseManga.cover_image,
+            new Date(),
+            baseManga.content_page_url,
+        ];
+
+        await client.query(updateMangaText, mangaValues);
+    }
+    catch (ex) {
+        log.error("Error when trying to update manga [" + baseManga.name + "] !", ex);
+        throw ex;
+    }
+}
+
+/**
+ * 
  * @throws MangaContentPageNotFoundError
  */
-export async function getMangaByContentUrl(contentUrl: string): Promise<Manga> {
+export async function getMangaByContentUrl(contentUrl: string): Promise<IManga> {
 
     const client = await getPool().connect();
 
@@ -256,7 +265,7 @@ export async function getMangaByContentUrl(contentUrl: string): Promise<Manga> {
     }
 }
 
- export async function mangaExistByContentUrl(contentUrl: string): Promise<boolean> {
+export async function mangaExistByContentUrl(contentUrl: string): Promise<boolean> {
 
     const client = await getPool().connect();
 
@@ -272,14 +281,14 @@ export async function getMangaByContentUrl(contentUrl: string): Promise<Manga> {
  * 
  * @throws MangaContentPageNotFoundError
  */
-export async function getMangaByContentUrl_(contentUrl: string, sharedClient: PoolClient): Promise<Manga> {
+export async function getMangaByContentUrl_(contentUrl: string, sharedClient: PoolClient): Promise<IManga> {
 
     const client = sharedClient;
 
     const queryText = `
     SELECT M.id m_id, *, C.id chapter_id FROM manga as M
-    LEFT JOIN chapter as 
-    ON M.id = C.manga_id
+    LEFT JOIN chapter as C
+    ON M.id = C.manga_id 
     WHERE M.content_page_url = $1
     ORDER BY C.release_date DESC
     ;`;
@@ -292,31 +301,7 @@ export async function getMangaByContentUrl_(contentUrl: string, sharedClient: Po
             throw new MangaContentPageNotFoundError(contentUrl);
         }
 
-        const rows = queryRes.rows;
-
-        const ret: Manga = {
-            id: rows[0].m_id,
-            name: rows[0].name,
-            description: rows[0].description,
-            content_page_url: rows[0].content_page_url,
-            cover_image: rows[0].cover_image,
-            chapters: {},
-            last_update: rows[0].last_update
-        };
-
-        rows.forEach((row) => {
-            if (row.chapter_id) {
-                ret.chapters[row.chapter_id] = {
-                    id: row.chapter_id,
-                    num: row.num,
-                    url: row.url,
-                    release_date: row.release_date
-                };
-            }
-        });
-
-
-        return ret;
+        return Object.values(rowsToMangaMap(queryRes.rows))[0];
     }
     catch (ex) {
         if (!(ex instanceof MangaContentPageNotFoundError)) {
@@ -372,4 +357,34 @@ export async function mangaExistById_(manga_id: number, sharedClient: PoolClient
         log.error("Error when trying to check if manga with id [" + manga_id + "] exist.", ex);
         throw ex;
     }
+}
+
+function rowsToMangaMap(rows: any[]): IMangaMap {
+    const ret: IMangaMap = {};
+
+    rows.forEach((row) => {
+        if (!ret[row.m_id]) {
+            ret[row.m_id] = {
+                id: row.m_id,
+                name: row.name,
+                description: row.description,
+                content_page_url: row.content_page_url,
+                cover_image: row.cover_image,
+                chapters: {},
+                last_update: row.last_update
+            };
+        }
+
+        if (row.chapter_id) {
+            ret[row.m_id].chapters[row.chapter_id] = {
+                id: row.chapter_id,
+                num: row.num,
+                url: row.url,
+                release_date: row.release_date
+            };
+        }
+    });
+
+
+    return ret;
 }

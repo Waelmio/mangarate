@@ -68,9 +68,19 @@ export class MangaContentPageExistError extends Error {
 export class MangaIdNotFoundError extends Error {
     mangaId: number;
     constructor(mangaId: number) {
-        const message = "Manga of id [" + mangaId + "] was not found.";
+        const message = "Manga of id [" + mangaId + "] was not found in DB.";
         super(message);
         this.mangaId = mangaId;
+        Object.setPrototypeOf(this, MangaIdNotFoundError.prototype);
+    }
+}
+
+export class MangaWithContentPageNotFoundError extends Error {
+    manga_content_url: string;
+    constructor(manga_content_url: string) {
+        const message = "Manga of content page [" + manga_content_url + "] was not found in DB.";
+        super(message);
+        this.manga_content_url = manga_content_url;
         Object.setPrototypeOf(this, MangaIdNotFoundError.prototype);
     }
 }

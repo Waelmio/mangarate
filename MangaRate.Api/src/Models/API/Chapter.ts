@@ -1,9 +1,13 @@
-export interface BaseChapter {
+export interface IChapterMap {
+    [id: string]: IChapter;
+}
+
+export interface IBaseChapter {
     num: number;
     url: string;
     release_date: Date;
 }
 
-export interface Chapter extends BaseChapter {
+export interface IChapter extends IBaseChapter {
     id: number;
 }

@@ -10,8 +10,8 @@ import {
     Query,
 } from "tsoa";
 import * as MangaDBService from "../Services/database/Manga.db.service";
-import * as MangaService from "../Services/Manga.service";
-import { Manga } from "../Models/API/Manga";
+import { MangaService } from "../Services/Manga.service";
+import { IManga } from "../Models/API/Manga";
 import { ApiError, ApiResponseError } from "../common/ApiError";
 import { BadUrlException, ContentPageNotFoundError, MangaContentPageExistError, MangaIdNotFoundError, ProviderNotImplemented } from "../common/Error";
 import { Logger } from "tslog";
@@ -27,7 +27,7 @@ export class MangaController extends Controller {
      * @summary Get all Mangas
     */
     @Get()
-    public async getAllMangas(): Promise<Manga[]> {
+    public async getAllMangas(): Promise<IManga[]> {
         const mangas = await MangaDBService.getMangas();
         return Object.values(mangas);
     }
@@ -41,7 +41,7 @@ export class MangaController extends Controller {
     @Get("{id}")
     public async getManga(
         @Path() id: number
-    ): Promise<Manga> {
+    ): Promise<IManga> {
         try {
             const manga = await MangaDBService.getManga(id);
             return manga;
@@ -67,7 +67,7 @@ export class MangaController extends Controller {
     @Put()
     public async registerManga(
         @Query() url: string
-    ): Promise<Manga> {
+    ): Promise<IManga> {
         try {
             const addedManga = await MangaService.registerManga(url);
             this.setStatus(201);

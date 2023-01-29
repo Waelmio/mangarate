@@ -1,17 +1,17 @@
 import { PoolClient, QueryResult } from 'pg';
 import { Logger } from 'tslog';
 import { ChapterIdNotFoundError, MangaIdNotFoundError } from '../../common/Error';
-import { BaseChapter, Chapter } from '../../Models/API/Chapter';
-import { MangaMap } from '../../Models/API/MangaMap';
+import { IBaseChapter, IChapter } from '../../Models/API/Chapter';
+import { IMangaMap } from '../../Models/API/Manga';
 import { addChaptersToDB_ } from './Chapter.db.service';
 import { getPool } from './Database';
 import { mangaExistById_, refreshMangaLastUpdate_ } from './Manga.db.service';
 
 const log = new Logger();
 
-export async function getNotifications(): Promise<MangaMap> {
+export async function getNotifications(): Promise<IMangaMap> {
     const client = await getPool().connect();
-    const ret: MangaMap = {};
+    const ret: IMangaMap = {};
 
     try {
         await client.query('BEGIN');
@@ -81,7 +81,7 @@ export async function getNotifications(): Promise<MangaMap> {
  * 
  * @throws MangaIdNotFoundError, ChapterIdNotFoundError
  */
- export async function addChapsAndNotificationsToDB(manga_id: number, baseChapters: BaseChapter[]): Promise<void> {
+ export async function addChapsAndNotificationsToDB(manga_id: number, baseChapters: IBaseChapter[]): Promise<void> {
 
     const client = await getPool().connect();
 
@@ -113,7 +113,7 @@ export async function getNotifications(): Promise<MangaMap> {
  * 
  * @throws MangaIdNotFoundError
  */
- export async function addNotificationsToDB(manga_id: number, chapters: Chapter[]): Promise<void> {
+ export async function addNotificationsToDB(manga_id: number, chapters: IChapter[]): Promise<void> {
 
     const client = await getPool().connect();
 
@@ -139,7 +139,7 @@ export async function getNotifications(): Promise<MangaMap> {
     }
 }
 
-export async function addNotificationsToDB_(chapters: Chapter[], sharedClient: PoolClient): Promise<void> {
+export async function addNotificationsToDB_(chapters: IChapter[], sharedClient: PoolClient): Promise<void> {
 
     const client = sharedClient;
 

@@ -1,6 +1,9 @@
 import { PoolClient, QueryResult } from "pg";
 import { Logger } from "tslog";
-import { BaseChapter, Chapter } from "../../Models/API/Chapter";
+import { MangaIdNotFoundError } from "../../common/Error";
+import { IBaseChapter, IChapter } from "../../Models/API/Chapter";
+import { getPool } from "./Database";
+import { mangaExistById_ } from "./Manga.db.service";
 
 const log = new Logger();
 
@@ -28,12 +31,41 @@ export async function chapterExistById_(id: number, sharedClient: PoolClient): P
     }
 }
 
-export async function addChaptersToDB_(manga_id: number, chapters: BaseChapter[], sharedClient: PoolClient): Promise<Chapter[]> {
+/**
+ * 
+ * @throws MangaIdNotFoundError
+ */
+export async function addChaptersToDB(manga_id: number, chapters: IBaseChapter[]): Promise<IChapter[]> {
+
+    const client = await getPool().connect();
+
+    try {
+        await client.query('BEGIN');
+
+        if (await mangaExistById_(manga_id, client)) {
+            throw new MangaIdNotFoundError(manga_id);
+        }
+
+        const ret = await addChaptersToDB_(manga_id, chapters, client);
+        
+        await client.query('COMMIT');
+        return ret;
+    }
+    catch (ex) {
+        await client.query('ROLLBACK');
+        throw ex;
+    }
+    finally {
+        client.release();
+    }
+}
+
+export async function addChaptersToDB_(manga_id: number, chapters: IBaseChapter[], sharedClient: PoolClient): Promise<IChapter[]> {
 
     const client = sharedClient;
 
     try {
-        const ret: Chapter[] = [];
+        const ret: IChapter[] = [];
 
         const insertChapterText = `
         INSERT INTO chapter (manga_id, num, url, release_date)

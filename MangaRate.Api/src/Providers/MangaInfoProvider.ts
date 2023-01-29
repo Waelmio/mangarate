@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ContentPageNotFoundError } from "../common/Error";
-import { BaseChapter } from "../Models/API/Chapter";
+import { IBaseChapter } from "../Models/API/Chapter";
 
 export abstract class MangaInfoProvider {
     /**
@@ -56,7 +56,7 @@ export abstract class MangaInfoProvider {
     /**
      * Get all chapters from the manga.
      */
-    abstract getAllChapters(): Promise<BaseChapter[]>;
+    abstract getAllChapters(): Promise<IBaseChapter[]>;
 
     /**
      * Get the name of the manga.

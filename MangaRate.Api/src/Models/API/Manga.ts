@@ -1,7 +1,10 @@
-import { BaseChapter } from "./Chapter";
-import { ChapterMap } from "./ChapterMap";
+import { IBaseChapter, IChapterMap } from "./Chapter";
 
-interface MangaAttributes {
+export interface IMangaMap {
+    [id: string]: IManga;
+}
+
+interface IMangaAttributes {
     name: string;
     description: string;
     content_page_url: string;
@@ -9,11 +12,11 @@ interface MangaAttributes {
     last_update: Date
 }
 
-export interface BaseManga extends MangaAttributes {
-    chapters: BaseChapter[];
+export interface IBaseManga extends IMangaAttributes {
+    chapters: IBaseChapter[];
 }
 
-export interface Manga extends MangaAttributes {
+export interface IManga extends IMangaAttributes {
     id: number;
-    chapters: ChapterMap;
+    chapters: IChapterMap;
 }

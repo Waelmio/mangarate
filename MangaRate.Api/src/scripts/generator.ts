@@ -1,11 +1,11 @@
-import { BaseManga, Manga } from "..//Models/API/Manga";
+import { IBaseManga, IManga } from "..//Models/API/Manga";
 import { faker } from '@faker-js/faker';
-import { BaseChapter } from "../Models/API/Chapter";
+import { IBaseChapter } from "../Models/API/Chapter";
 import { addMangaToDB } from "../Services/database/Manga.db.service";
 import { addNotificationsToDB } from "../Services/database/Notification.db.service";
 
-export async function MangaGenerator(amount = -1): Promise<BaseManga[]> {
-    const mangas_to_be: BaseManga[] = [];
+export async function MangaGenerator(amount = -1): Promise<IBaseManga[]> {
+    const mangas_to_be: IBaseManga[] = [];
 
     let how_much = amount;
 
@@ -14,7 +14,7 @@ export async function MangaGenerator(amount = -1): Promise<BaseManga[]> {
     }
 
     for (let i = 0; i < how_much; i++) {
-        const chapters: BaseChapter[] = [];
+        const chapters: IBaseChapter[] = [];
         const chaps_amount = 15 + Math.floor(Math.random() * 15);
 
         for (let j = 0; j < chaps_amount; j++) {
@@ -31,6 +31,7 @@ export async function MangaGenerator(amount = -1): Promise<BaseManga[]> {
             name: faker.lorem.sentence(),
             description: faker.lorem.paragraph(),
             content_page_url: faker.internet.url(),
+            cover_image: faker.image.imageUrl(),
             chapters: chapters,
             last_update: faker.date.past()
         });
@@ -40,12 +41,12 @@ export async function MangaGenerator(amount = -1): Promise<BaseManga[]> {
 }
 
 export async function FollowedMangaGeneratorSaver(amount = -1): Promise<void> {
-    const mangas_to_be: BaseManga[] = await MangaGenerator(amount);
+    const mangas_to_be: IBaseManga[] = await MangaGenerator(amount);
     
-    const mangas_to_be_prom: Promise<Manga>[] = [];
+    const mangas_to_be_prom: Promise<IManga>[] = [];
     
     mangas_to_be.forEach((manga) => mangas_to_be_prom.push(addMangaToDB(manga)));
-    const mangas: Manga[] = await Promise.all(mangas_to_be_prom);
+    const mangas: IManga[] = await Promise.all(mangas_to_be_prom);
 
     const notifs_prom: Promise<void>[] = [];
 
