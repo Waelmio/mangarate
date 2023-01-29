@@ -7,7 +7,7 @@ import cheerio from 'cheerio';
 const log = new Logger();
 
 export class ReadmanganatoProviderInfo extends MangaInfoProvider {
-    static hostnames = ["readmanganato.com", "chapmanganato.com"];
+    static hostnames = ["readmanganato.com", "chapmanganato.com", "manganato.com"];
 
     name = "MangaNato";
 
