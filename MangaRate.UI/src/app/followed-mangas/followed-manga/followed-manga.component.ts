@@ -37,6 +37,10 @@ export class FollowedMangaComponent implements OnInit {
         window.open(this.chapters[0].url, "_blank");
     }
 
+    openContentPage() {
+        window.open(this.manga.content_page_url, "_blank");
+    }
+
     markAllChaptersRead(e: Event) {
         e.stopPropagation();
     }

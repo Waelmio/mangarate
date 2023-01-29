@@ -1,3 +1,7 @@
+.empty-manga {
+    opacity: 0.35;
+}
+
 .mat-card {
     cursor: pointer;
 }

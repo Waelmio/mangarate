@@ -5,7 +5,8 @@
     fxFlex
     materialElevation
     *ngIf="manga !== null"
-    (click)="openAndMarkChapterRead($event)"
+    [ngClass]="{'empty-manga': chapters.length === 0}"
+    (click)="openContentPage()"
 >
     <div mat-card-image>
         <div class="cover-image-container">
@@ -20,7 +21,7 @@
         </div>
     </div>
     <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <a fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button" (click)="markAllChaptersRead($event)"><mat-icon>done</mat-icon></a>
+        <a fxFlex="33%" materialElevation [defaultElevation]="0" [raisedElevation]="3" mat-icon-button class="manga-card-button" (click)="markAllChaptersRead($event)"><mat-icon>done_all</mat-icon></a>
         <div fxFlex="33%" class="chapter-count">
             <mat-card-title>{{ chapters.length }}</mat-card-title>
             <mat-card-subtitle>{{ getChaptersToRead() }}</mat-card-subtitle>
