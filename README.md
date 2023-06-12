@@ -3,13 +3,14 @@
 A project to always be up to date on your favorite manga, using your favorite fournisseur !
 
 ## Setup
-- Setup [postgresql](doc/setup_dev_DB.md)
+- Setup and run [postgresql docker](doc/setup_dev_DB.md)
 - 
     ```
     npm install
+    npm run build
     ```
 
 ## Run
 ```
-npm run dev
+npm start
 ```

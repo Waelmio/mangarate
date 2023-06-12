@@ -1,5 +1,5 @@
 {
-  "name": "mangarate",
+  "name": "mangarate.api",
   "version": "0.0.1",
   "description": "A project to always be up to date on your favorite manga, using your favorite fournisseur !",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "dev2": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
     "lint": "eslint . --ext .ts",
     "start": "node build/src/index.js",
-    "build": "tsoa spec-and-routes && tsc",
+    "build": "tsoa spec-and-routes && tsc && cp -r ./config ./build/config/",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "seed": "npm run build && node build/src/scripts/generator.js"
   },

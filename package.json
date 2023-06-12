@@ -1,0 +1,37 @@
+{
+  "name": "mangarate",
+  "version": "0.0.1",
+  "description": "A project to always be up to date on your favorite manga, using your favorite fournisseur !",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_CONFIG_DIR=./build/config node build/src/index.js",
+    "build": "npm run build:api && npm run build:ui",
+    "build:api": "cd ./MangaRate.Api && npm run build",
+    "build:ui": "cd ./MangaRate.UI && npm run build",
+    "postbuild": "npm run clean:root && cp -r ./MangaRate.UI/build ./build/ && cp -r ./MangaRate.Api/build/* ./build/",
+    "clean:root": "rm -R -f ./build",
+    "clean:node": "rm -rf node_modules */node_modules"
+  },
+  "workspaces": {
+    "packages": [
+      "MangaRate.Api",
+      "MangaRate.UI"
+    ],
+    "nohoist": [
+      "**/@angular*",
+      "**/@angular*/**"
+    ]
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Waelmio/mangarate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Waelmio/mangarate/issues"
+  },
+  "homepage": "https://github.com/Waelmio/mangarate#readme"
+}

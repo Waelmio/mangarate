@@ -9,6 +9,7 @@ import swaggerUi from "swagger-ui-express";
 import { errorHandler } from "./common/ErrorHandler";
 import * as swaggerJson from "../build/swagger.json";
 import { RegisterRoutes } from "../build/routes";
+import path from 'path';
 
 async function main() {
     /**
@@ -52,10 +53,14 @@ async function main() {
 
     app.use(errorHandler);
 
-    // Fallback
-    app.all('*', (_req, res) => {
-        res.status(404).send("Not found.");
+    // // Angular Setup
+    app.use(express.static(path.join(__dirname, '../dist/manga-rate.ui/')));
+    
+    app.get('*', function(_req: any, res: { sendFile: (arg0: string) => void; }) {
+        res.sendFile(path.join(__dirname, 'dist/index.html'));
     });
+
+    console.log(swaggerJson.servers);
 
     /**
      * Server Activation
