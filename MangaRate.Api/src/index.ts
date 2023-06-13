@@ -60,8 +60,6 @@ async function main() {
         res.sendFile(path.join(__dirname, 'dist/index.html'));
     });
 
-    console.log(swaggerJson.servers);
-
     /**
      * Server Activation
      */
