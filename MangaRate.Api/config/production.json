@@ -4,11 +4,10 @@
     },
     "database": {
         "credentials": {
-            "database": "db_mangarate_dev",
+            "database": "db_mangarate",
             "host": "mangarate-db",
-            "port": 5433,
-            "user": "mangarate",
-            "password": "password"
+            "port": 5432,
+            "user": "mangarate"
         },
         "migrate": "max"        
     },

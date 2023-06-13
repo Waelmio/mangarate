@@ -1,0 +1,31 @@
+{
+    "server": {
+        "port": {
+            "__name":"MANGARATE_SERVER_PORT",
+            "__format": "number"
+        }
+    },
+    "database": {
+        "credentials": {
+            "database": "MANGARATE_DB_NAME",
+            "host": "MANGARATE_DB_HOST",
+            "port": {
+                "__name":"MANGARATE_DB_PORT",
+                "__format": "number"
+            },
+            "user": "MANGARATE_DB_USER",
+            "password": "MANGARATE_DB_PASSWORD"
+        },
+        "migrate": "max"        
+    },
+    "watcher": {
+        "enabled": {
+            "__name":"MANGARATE_WATCHER_ENABLED",
+            "__format": "boolean"
+        },
+        "interval": {
+            "__name":"MANGARATE_WATCHER_INTERVAL",
+            "__format": "number"
+        }
+    }
+}

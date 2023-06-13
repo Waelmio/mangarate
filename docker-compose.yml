@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  mangarate-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mangarate-server
+    container_name: mangarate-server
+    restart: unless-stopped
+    depends_on:
+      mangarate-db:
+        condition: service_healthy
+    # env_file: .env
+    environment:
+      - MANGARATE_DB_PASSWORD=MegaSuperPasswordImSureYouWillChangeLater
+    # environment:
+    #   - MONGO_USERNAME=$MONGO_USERNAME
+    #   - MONGO_PASSWORD=$MONGO_PASSWORD
+    #   - MONGO_HOSTNAME=mangarate-db
+    #   - MONGO_PORT=$MONGO_PORT
+    #   - MONGO_DB=$MONGO_DB
+
+    ports:
+      - "7000:7000"
+    volumes:
+      - mangarate-node_modules-volume:/usr/app/node_modules
+    networks:
+      - mangarate-network
+
+  mangarate-db:
+    image: postgres
+    container_name: mangarate-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=db_mangarate
+      - POSTGRES_USER=mangarate
+      - POSTGRES_PASSWORD=MegaSuperPasswordImSureYouWillChangeLater
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mangarate -d db_mangarate"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:     
+      - mangarate-postgres-volume:/var/lib/postgresql/data
+    networks:
+      - mangarate-network
+
+
+networks:
+  mangarate-network:
+    driver: bridge
+
+volumes:
+  mangarate-postgres-volume:
+  mangarate-node_modules-volume:

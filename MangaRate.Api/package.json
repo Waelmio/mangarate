@@ -8,7 +8,8 @@
     "dev2": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
     "lint": "eslint . --ext .ts",
     "start": "node build/src/index.js",
-    "build": "tsoa spec-and-routes && tsc && cp -r ./config ./build/config/",
+    "build": "tsoa spec-and-routes && tsc && npm run copy-files-for-build",
+    "copy-files-for-build": " cp -a ./config/. ./build/config/ && cp -a ./src/Services/database/migrations/. ./build/src/Services/database/migrations/",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "seed": "npm run build && node build/src/scripts/generator.js"
   },

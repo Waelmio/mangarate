@@ -14,3 +14,9 @@ A project to always be up to date on your favorite manga, using your favorite fo
 ```
 npm start
 ```
+
+## Docker
+```
+sudo docker compose build
+sudo docker compose up
+```
