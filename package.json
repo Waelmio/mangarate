@@ -16,10 +16,6 @@
     "packages": [
       "MangaRate.Api",
       "MangaRate.UI"
-    ],
-    "nohoist": [
-      "**/@angular*",
-      "**/@angular*/**"
     ]
   },
   "private": true,
