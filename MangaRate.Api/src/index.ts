@@ -1,15 +1,18 @@
+import path from 'path';
+import cors from 'cors';
+import helmet from 'helmet';
 import config from 'config';
-import express from "express";
-import bodyParser from "body-parser";
-import cors from "cors";
-import helmet from "helmet";
+import morgan from 'morgan';
+import express from 'express';
+import { Logger } from 'tslog';
+import bodyParser from 'body-parser';
+import swaggerUi from 'swagger-ui-express';
 import { init } from "./Services/init";
-import morgan from "morgan";
-import swaggerUi from "swagger-ui-express";
+import { RegisterRoutes } from "../build/routes";
 import { errorHandler } from "./common/ErrorHandler";
 import * as swaggerJson from "../build/swagger.json";
-import { RegisterRoutes } from "../build/routes";
-import path from 'path';
+
+const log: Logger = new Logger();
 
 async function main() {
     /**
@@ -54,17 +57,18 @@ async function main() {
     app.use(errorHandler);
 
     // // Angular Setup
-    app.use(express.static(path.join(__dirname, '../dist/manga-rate.ui/')));
+    const angularAppPath = path.join(__dirname, '../dist/manga-rate.ui/');
+    app.use(express.static(angularAppPath));
     
     app.get('*', function(_req: any, res: { sendFile: (arg0: string) => void; }) {
-        res.sendFile(path.join(__dirname, 'dist/index.html'));
+        res.sendFile(path.join(angularAppPath, 'index.html'));
     });
 
     /**
      * Server Activation
      */
     app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
+        log.info(`Server running on http://localhost:${PORT}`);
     });
 }
 
