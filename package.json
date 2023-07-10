@@ -5,10 +5,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_CONFIG_DIR=./build/config node build/src/index.js",
+    "prebuild": "npm run clean:root && mkdir -p build",
     "build": "npm run build:api && npm run build:ui",
-    "build:api": "cd ./MangaRate.Api && npm run build",
-    "build:ui": "cd ./MangaRate.UI && npm run build",
-    "postbuild": "npm run clean:root && cp -r ./MangaRate.UI/build ./build/ && cp -r ./MangaRate.Api/build/* ./build/",
+    "build:api": "mkdir -p build && cd ./MangaRate.Api && npm run build && cp -a ./build/. ../build/",
+    "build:ui": "mkdir -p build && cd ./MangaRate.UI && npm run build && cp -a ./build/. ../build/",
     "clean:root": "rm -R -f ./build",
     "clean:node": "rm -rf node_modules */node_modules"
   },
