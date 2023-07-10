@@ -31,7 +31,9 @@ async function main() {
     /**
      *  App Configuration
      */
-    app.use(helmet());
+    app.use(helmet({
+        contentSecurityPolicy: false,
+     }));
     app.use(cors());
 
     // tsoa

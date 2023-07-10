@@ -5,7 +5,7 @@
     "database": {
         "credentials": {
             "database": "db_mangarate_dev",
-            "host": "mangarate-db",
+            "host": "localhost",
             "port": 5433,
             "user": "mangarate",
             "password": "password"

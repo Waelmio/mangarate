@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: mangarate-server
+    image: waelmio/mangarate:latest
     container_name: mangarate-server
     restart: unless-stopped
     depends_on:
@@ -14,10 +14,10 @@ services:
     # env_file: .env
     environment:
       - MANGARATE_DB_PASSWORD=MegaSuperPasswordImSureYouWillChangeLater
+      - MONGO_HOSTNAME=mangarate-db
     # environment:
     #   - MONGO_USERNAME=$MONGO_USERNAME
     #   - MONGO_PASSWORD=$MONGO_PASSWORD
-    #   - MONGO_HOSTNAME=mangarate-db
     #   - MONGO_PORT=$MONGO_PORT
     #   - MONGO_DB=$MONGO_DB
 
