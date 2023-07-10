@@ -52,5 +52,13 @@ export class MangaInfoProviderFactory {
             provider.hostnames.forEach((hostname) => this.providersMap[hostname] = provider);
         });
     }
+
+    static getProvidersHostname() : string[] {
+        if (!this.providersMap) {
+            this.prepareMap();
+        }
+
+        return Object.keys(this.providersMap);
+    }
 }
 

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Chapter } from '@core/Models/API/Chapter';
 import { Manga } from '@core/Models/API/Manga';
 import { FollowedMangasFacade } from '@core/store/followed-mangas/followed-mangas.facade';
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'app-followed-manga',
@@ -35,6 +36,10 @@ export class FollowedMangaComponent implements OnInit {
         else {
             return '-';
         }
+    }
+
+    getImageUrl(): string {
+        return environment.api.baseUrl + 'image-proxy/' + this.manga.cover_image;
     }
 
     openAndMarkChapterRead(e: Event) {

@@ -11,6 +11,7 @@ import { init } from "./Services/init";
 import { RegisterRoutes } from "../build/routes";
 import { errorHandler } from "./common/ErrorHandler";
 import * as swaggerJson from "../build/swagger.json";
+import { GetImageProxyMiddleware } from './middleware/ImageProxyMiddleware';
 
 const log: Logger = new Logger();
 
@@ -31,10 +32,27 @@ async function main() {
     /**
      *  App Configuration
      */
-    app.use(helmet({
-        contentSecurityPolicy: false,
-     }));
-    app.use(cors());
+    if (process.env.NODE_ENV !== "production") {
+        app.use(helmet({
+            contentSecurityPolicy: false,
+            crossOriginResourcePolicy: { policy: "cross-origin" },
+        }));
+        app.use(cors({ origin: `*` }));
+    }
+    else {
+        app.use(helmet({
+            contentSecurityPolicy: false,
+        }));
+        app.use(cors());
+    }
+    
+    // Logging
+    app.use(morgan("tiny"));
+    
+    app.use(errorHandler);
+
+    // image proxy
+    app.use(GetImageProxyMiddleware());
 
     // tsoa
     app.use(
@@ -45,24 +63,20 @@ async function main() {
     app.use(bodyParser.json());
     RegisterRoutes(app);
 
-    // Logging
-    app.use(morgan("tiny"));
-
     // Swagger Setup
-    app.use(express.static("public"));
+    app.use(express.static(path.join(__dirname, '../public/')));
     app.use(
         "/docs",
         swaggerUi.serve,
         swaggerUi.setup(swaggerJson)
     );
 
-    app.use(errorHandler);
 
     // // Angular Setup
     const angularAppPath = path.join(__dirname, '../dist/manga-rate.ui/');
     app.use(express.static(angularAppPath));
-    
-    app.get('*', function(_req: any, res: { sendFile: (arg0: string) => void; }) {
+
+    app.get('*', function (_req: any, res: { sendFile: (arg0: string) => void; }) {
         res.sendFile(path.join(angularAppPath, 'index.html'));
     });
 
