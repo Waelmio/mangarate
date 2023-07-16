@@ -14,7 +14,7 @@ import { MangaService } from "../Services/Manga.service";
 import { IManga } from "../Models/API/Manga";
 import { ApiError, ApiResponseError } from "../common/ApiError";
 import { BadUrlException, ContentPageNotFoundError, MangaContentPageExistError, MangaIdNotFoundError, ProviderNotImplemented } from "../common/Error";
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 
 const log = new Logger();
 

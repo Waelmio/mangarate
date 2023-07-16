@@ -3,7 +3,7 @@ import {
     Request as ExRequest,
     NextFunction,
 } from "express";
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 import { ValidateError } from "tsoa";
 import { ApiError, ApiResponseError } from "./ApiError";
 

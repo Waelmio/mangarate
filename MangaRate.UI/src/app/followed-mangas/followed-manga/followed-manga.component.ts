@@ -21,6 +21,10 @@ export class FollowedMangaComponent implements OnInit {
         this.chapters = Object.values(this.manga.chapters);
     }
 
+    linkToCover(): string {
+        return "cover/" + this.manga.id;
+    }
+
     linkToNextChapter(): string {
         return this.chapters[0].url;
     }

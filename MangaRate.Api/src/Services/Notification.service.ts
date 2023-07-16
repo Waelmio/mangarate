@@ -1,4 +1,4 @@
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 import { IBaseChapter, IChapter } from "../Models/API/Chapter";
 import { IBaseManga, IManga } from "../Models/API/Manga";
 import { addChapsAndNotificationsToDB, addNotificationsToDB } from "./database/Notification.db.service";

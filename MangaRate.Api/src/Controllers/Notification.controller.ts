@@ -10,7 +10,7 @@ import {
 import * as NotificationService from "../Services/database/Notification.db.service";
 import { ApiError, ApiResponseError } from "../common/ApiError";
 import { ChapterIdNotFoundError, MangaIdNotFoundError } from "../common/Error";
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 
 const log = new Logger();
 

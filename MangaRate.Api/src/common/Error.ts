@@ -19,7 +19,7 @@ export class ProviderNotImplemented extends Error {
 export class BadUrlException extends Error {
     badUrl: string;
     constructor(badUrl: string) {
-        const message = "\"" + badUrl + "\" is not an url.";
+        const message = "\"" + badUrl + "\" is not a valid url.";
         super(message);
         this.badUrl = badUrl;
         Object.setPrototypeOf(this, BadUrlException.prototype);

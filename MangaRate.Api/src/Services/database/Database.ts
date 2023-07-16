@@ -1,8 +1,8 @@
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 import config from 'config';
 import pg = require('pg');
 import { types } from 'pg';
-import path = require("path");
+import path = require('path');
 import Postgrator = require('postgrator');
 
 const log: Logger = new Logger();

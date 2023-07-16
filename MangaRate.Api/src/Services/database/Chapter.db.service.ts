@@ -1,5 +1,5 @@
 import { PoolClient, QueryResult } from "pg";
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 import { MangaIdNotFoundError } from "../../common/Error";
 import { IBaseChapter, IChapter } from "../../Models/API/Chapter";
 import { getPool } from "./Database";

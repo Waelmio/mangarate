@@ -49,7 +49,7 @@ async function main() {
     app.use(morgan("tiny"));
 
     // Swagger Setup
-    app.use(express.static("public"));
+    app.use(express.static(path.join(__dirname, '../public/')));
     app.use(
         "/docs",
         swaggerUi.serve,

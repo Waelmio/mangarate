@@ -1,4 +1,4 @@
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 import { IBaseManga, IManga, IMangaMap } from '../../Models/API/Manga';
 import { getPool } from './Database';
 import { PoolClient, QueryResult } from 'pg';

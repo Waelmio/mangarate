@@ -1,7 +1,7 @@
 import { ContentPageNotFoundError } from "../../common/Error";
 import { IBaseChapter } from "../../Models/API/Chapter";
 import { MangaInfoProvider } from "../MangaInfoProvider";
-import { Logger } from "tslog";
+import { Logger } from 'tslog';
 import cheerio from 'cheerio';
 
 const log = new Logger();
