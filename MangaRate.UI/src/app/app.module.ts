@@ -17,6 +17,7 @@ import { AddMangaComponent } from './addmanga/addmanga.component';
 import { MaterialModule } from './material.module';
 import { FollowedMangasModule } from './followed-mangas/followed-mangas.module';
 import { CoreModule } from '@core/core.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { CoreModule } from '@core/core.module';
     MaterialModule,
     LayoutModule,
     FlexLayoutModule,
+    FormsModule,
     NgxSkeletonLoaderModule,
     HttpClientModule,
     CoreModule,

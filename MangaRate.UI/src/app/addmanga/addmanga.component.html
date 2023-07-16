@@ -2,7 +2,7 @@
   <div fxFlex="66" fxFlex.xs="100" fxLayout="column" fxLayoutAlign="start center">
     <mat-form-field class="add-manga-field" appearance="outline">
       <mat-label>Add a manga to follow !</mat-label>
-      <input class="add-manga-input" type="url" matInput #mangaAddField placeholder="https://readmanganato.com/manga-de980539">
+      <input class="add-manga-input" type="url" matInput #mangaAddField [(ngModel)]="mangaToAddUrl" placeholder="https://readmanganato.com/manga-de980539">
       <button mat-fab color="primary" matSuffix class="add-manga-button" aria-label="Follow New Manga" (click) = "subscribeToManga(mangaAddField.value)">
         <mat-icon class="add-manga-icon">add</mat-icon>
       </button>

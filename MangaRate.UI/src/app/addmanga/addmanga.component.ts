@@ -9,6 +9,7 @@ import { FollowedMangasFacade } from '@core/store/followed-mangas/followed-manga
   styleUrls: ['./addmanga.component.css']
 })
 export class AddMangaComponent {
+    mangaToAddUrl: string = "";
 
     constructor(
         private _followedMangasFacade: FollowedMangasFacade
@@ -25,5 +26,6 @@ export class AddMangaComponent {
         //     {'params': params}
         // ).subscribe();
         this._followedMangasFacade.followManga(url);
+        this.mangaToAddUrl = "";
     }
 }
