@@ -5,8 +5,6 @@ import { Logger } from 'tslog';
 
 import { fromStream } from 'file-type';
 import axios from 'axios';
-// // Necessary as this is ESM module only
-// const fetch = (url: RequestInfo, init?: RequestInit) =>  import("node-fetch").then(({ default: fetch }) => fetch(url, init));
 
 import { IManga } from "../Models/API/Manga";
 
