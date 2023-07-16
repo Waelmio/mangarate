@@ -30,6 +30,8 @@ COPY --from=ts-compiler /usr/app/MangaRate.Api/package*.json ./MangaRate.Api/
 COPY --from=ts-compiler /usr/app/MangaRate.UI/package*.json ./MangaRate.UI/
 RUN npm install --only=production
 COPY --from=ts-compiler /usr/app/build ./
+RUN mkdir -p /usr/app/public/cover
+RUN chown 1000 /usr/app/public/cover
 
 # FINAL
 

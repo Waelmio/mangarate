@@ -24,7 +24,7 @@ services:
     ports:
       - "7000:7000"
     volumes:
-      - mangarate-node_modules-volume:/usr/app/node_modules
+      - mangarate-cover-volume:/usr/app/public/cover
     networks:
       - mangarate-network
 
@@ -53,4 +53,4 @@ networks:
 
 volumes:
   mangarate-postgres-volume:
-  mangarate-node_modules-volume:
+  mangarate-cover-volume:

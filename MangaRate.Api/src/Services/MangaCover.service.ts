@@ -9,8 +9,6 @@ import axios from 'axios';
 // const fetch = (url: RequestInfo, init?: RequestInit) =>  import("node-fetch").then(({ default: fetch }) => fetch(url, init));
 
 import { IManga } from "../Models/API/Manga";
-import { BadUrlException } from "../common/Error";
-import { response } from 'express';
 
 const log = new Logger();
 
