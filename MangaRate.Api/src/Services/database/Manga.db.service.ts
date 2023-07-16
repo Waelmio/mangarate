@@ -197,7 +197,7 @@ export async function updateMangaInfo(baseManga: IBaseManga): Promise<IManga> {
         await updateMangaInfo_(baseManga, client);
         
         await client.query('COMMIT');
-        const ret = await getMangaByContentUrl(baseManga.content_page_url);
+        const ret = await getMangaByContentUrl_(baseManga.content_page_url, client);
         return ret;
     }
     catch (ex) {
