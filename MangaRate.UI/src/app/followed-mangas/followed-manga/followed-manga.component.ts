@@ -31,7 +31,7 @@ export class FollowedMangaComponent implements OnInit {
 
     getChaptersToRead(): string {
         if (this.chapters.length > 1) {
-            return this.chapters[0].num + ' > ' + this.chapters[this.chapters.length - 1].num;
+            return this.chapters[this.chapters.length - 1].num + ' > ' + this.chapters[0].num;
         }
         else if (this.chapters.length == 1) {
             return this.chapters[0].num + '';
