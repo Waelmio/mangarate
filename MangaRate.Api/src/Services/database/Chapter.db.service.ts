@@ -42,7 +42,7 @@ export async function addChaptersToDB(manga_id: number, chapters: IBaseChapter[]
     try {
         await client.query('BEGIN');
 
-        if (await mangaExistById_(manga_id, client)) {
+        if (!(await mangaExistById_(manga_id, client))) {
             throw new MangaIdNotFoundError(manga_id);
         }
 
