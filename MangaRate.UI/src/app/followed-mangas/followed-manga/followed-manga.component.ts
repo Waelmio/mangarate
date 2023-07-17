@@ -43,8 +43,8 @@ export class FollowedMangaComponent implements OnInit {
 
     openAndMarkChapterRead(e: Event) {
         e.stopPropagation();
-        window.open(this.chapters[0].url, "_blank");
-        this._followedMangasFacade.markChapterAsRead(this.chapters[0]);
+        window.open(this.chapters[this.chapters.length - 1].url, "_blank");
+        this._followedMangasFacade.markChapterAsRead(this.chapters[this.chapters.length - 1]);
     }
 
     openContentPage() {
