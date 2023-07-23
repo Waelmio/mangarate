@@ -62,17 +62,19 @@ export class MangaService {
             mangaInfoProvider = await MangaInfoProviderFactory.getMangaInfoProvider(url);
         }
 
-        const name = mangaInfoProvider.getName();
-        const description = mangaInfoProvider.getDescription();
-        const chapters = mangaInfoProvider.getAllChapters();
-        const cover_image = mangaInfoProvider.getCoverImageUrl();
+        const [name, description, chapters, cover_image] = await Promise.all([
+            mangaInfoProvider.getName(),
+            mangaInfoProvider.getDescription(),
+            mangaInfoProvider.getAllChapters(),
+            mangaInfoProvider.getCoverImageUrl()
+        ]);
 
         const manga: IBaseManga = {
-            name: await name,
-            description: await description,
+            name: name,
+            description: description,
             content_page_url: mangaInfoProvider.contentPageUrl,
-            cover_image: await cover_image,
-            chapters: await chapters,
+            cover_image: cover_image,
+            chapters: chapters,
             last_update: new Date()
         };
 
