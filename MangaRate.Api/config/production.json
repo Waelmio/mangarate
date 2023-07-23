@@ -13,6 +13,6 @@
     },
     "watcher": {
         "enabled": true,
-        "interval": 12
+        "interval": 15
     }
 }
