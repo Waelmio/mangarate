@@ -50,6 +50,8 @@ export class Watcher {
 
             const mangaUpdatePromises: Promise<IManga>[] = [];
 
+            // Though launching promises before the Promise.all,
+            // this should not throw uncaught errors as updateManga should not throw errors.
             for (const id in mangas) {
                 mangaUpdatePromises.push(
                     this.updateManga(mangas[id])

@@ -128,15 +128,14 @@ export async function addMangaToDB_(manga: IBaseManga, sharedClient: PoolClient)
         VALUES ($1, $2, $3, $4) RETURNING id
         ;`;
 
-        const queryPromises: Promise<QueryResult>[] = [];
+        const chaptersQueries: QueryResult[] = [];
 
-        manga.chapters.forEach((chap) => {
-            const chapterValues = [ret.id, chap.num, chap.url, chap.release_date];
-
-            queryPromises.push(client.query(insertChapterText, chapterValues));
-        });
-
-        const chaptersQueries = await Promise.all(queryPromises);
+        // TODO: awaiting each query may be slow.
+        for (let i = 0; i < manga.chapters.length; i++) {
+            const chapterValues = [ret.id, manga.chapters[i].num, manga.chapters[i].url, manga.chapters[i].release_date];
+    
+            chaptersQueries.push(await client.query(insertChapterText, chapterValues));
+        }
 
         for (let i = 0; i < manga.chapters.length; i++) {
             const id = chaptersQueries[i].rows[0].id;

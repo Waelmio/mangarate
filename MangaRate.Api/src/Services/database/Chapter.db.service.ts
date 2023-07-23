@@ -72,15 +72,14 @@ export async function addChaptersToDB_(manga_id: number, chapters: IBaseChapter[
         VALUES ($1, $2, $3, $4) RETURNING id
         ;`;
 
-        const queryPromises: Promise<QueryResult>[] = [];
+        const chaptersQueries: QueryResult[] = [];
 
-        chapters.forEach((chap) => {
-            const chapterValues = [manga_id, chap.num, chap.url, chap.release_date];
-
-            queryPromises.push(client.query(insertChapterText, chapterValues));
-        });
-
-        const chaptersQueries = await Promise.all(queryPromises);
+        // TODO: awaiting each query may be slow.
+        for (let i = 0; i < chapters.length; i++) {
+            const chapterValues = [manga_id, chapters[i].num, chapters[i].url, chapters[i].release_date];
+    
+            chaptersQueries.push(await client.query(insertChapterText, chapterValues));
+        }
 
         for (let i = 0; i < chapters.length; i++) {
             const id = chaptersQueries[i].rows[0].id;

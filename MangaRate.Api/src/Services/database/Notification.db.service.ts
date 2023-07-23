@@ -149,16 +149,13 @@ export async function addNotificationsToDB_(chapters: IChapter[], sharedClient: 
         VALUES ($1)
         ;`;
 
-        const queryPromises: Promise<QueryResult>[] = [];
-
-        chapters.forEach((chap) => {
+        // TODO: awaiting each query may be slow.
+        for (let i = 0; i < chapters.length; i++) {
             const notifValues = [
-                chap.id
+                chapters[i].id
             ];
-            queryPromises.push(client.query(insertNotificationQuery, notifValues));
-        });
-
-        await Promise.all(queryPromises);
+            await client.query(insertNotificationQuery, notifValues);
+        }
     }
     catch (ex) {
         log.error("Error when trying to insert notifications for new chapters !", ex, chapters);
